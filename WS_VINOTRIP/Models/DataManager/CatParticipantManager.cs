@@ -23,7 +23,7 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task<ActionResult<CatParticipant>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await vinotripDbContext.CatsParticipant.FirstOrDefaultAsync(e => e.CatParticipantId == id);
         }
 
         public async Task<ActionResult<CatParticipant>> GetByStringAsync(string titre)

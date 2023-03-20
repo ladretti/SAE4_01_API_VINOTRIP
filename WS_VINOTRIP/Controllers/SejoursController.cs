@@ -33,7 +33,13 @@ namespace WS_VINOTRIP.Controllers
 
             var catparticipant = dataRepository2.GetAllAsync().Result;
 
-            return dataRepository.GetAllAsync().Result;
+            var sejours = dataRepository.GetAllAsync().Result;
+
+            if (sejours == null)
+            {
+                return NotFound();
+            }
+            return sejours;
         }
 
         // GET: api/Sejours/5

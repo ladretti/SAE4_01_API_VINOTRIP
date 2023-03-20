@@ -30,6 +30,9 @@ builder.Services.AddScoped<IDataRepository<Avis>, AvisManager>();
 builder.Services.AddScoped<IDataRepository<RouteDesVins>, RouteDesVinsManager>();
 builder.Services.AddScoped<IDataRepository<User>, UserManager>();
 builder.Services.AddScoped<IDataRepository<Vignoble>, VignobleManager>();
+builder.Services.AddScoped<IDataRepository<CatParticipant>, CatParticipantManager>();
+builder.Services.AddScoped<IDataRepository<CatVignoble>, CatVignobleManager>();
+builder.Services.AddScoped<IDataRepository<CatSejour>, CatSejourManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
