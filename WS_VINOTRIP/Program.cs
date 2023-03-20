@@ -8,7 +8,7 @@ using WS_VINOTRIP.Models;
 using WS_VINOTRIP.Models.DataManager;
 using WS_VINOTRIP.Models.EntityFramework;
 using WS_VINOTRIP.Models.Repository;
-
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +33,7 @@ builder.Services.AddScoped<IDataRepository<Vignoble>, VignobleManager>();
 builder.Services.AddScoped<IDataRepository<CatParticipant>, CatParticipantManager>();
 builder.Services.AddScoped<IDataRepository<CatVignoble>, CatVignobleManager>();
 builder.Services.AddScoped<IDataRepository<CatSejour>, CatSejourManager>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
@@ -72,6 +73,12 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
+
+app.UseCors(
+        options => options.WithOrigins("http://51.83.36.122:6980").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+    );
+
+
 
 app.UseHttpsRedirection();
 
