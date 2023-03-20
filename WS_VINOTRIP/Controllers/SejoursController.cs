@@ -28,9 +28,6 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sejour>>> GetSejours()
         {
-            var response = HttpContext.Response;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
-
             var catparticipant = dataRepository2.GetAllAsync().Result;
 
             return dataRepository.GetAllAsync().Result;
