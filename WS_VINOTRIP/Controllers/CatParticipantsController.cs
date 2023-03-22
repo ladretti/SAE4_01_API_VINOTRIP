@@ -25,8 +25,6 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CatParticipant>>> GetCatsParticipant()
         {
-            var response = HttpContext.Response;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
 
             var catsParticipant = dataRepository.GetAllAsync().Result;
 
@@ -43,8 +41,7 @@ namespace WS_VINOTRIP.Controllers
         [ActionName("GetById")]
         public async Task<ActionResult<CatParticipant>> GetCatParticipant(int id)
         {
-            var response = HttpContext.Response;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
+
 
             var catParticipant = dataRepository.GetByIdAsync(id).Result;
 

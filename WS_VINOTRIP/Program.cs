@@ -33,6 +33,7 @@ builder.Services.AddScoped<IDataRepository<Vignoble>, VignobleManager>();
 builder.Services.AddScoped<IDataRepository<CatParticipant>, CatParticipantManager>();
 builder.Services.AddScoped<IDataRepository<CatVignoble>, CatVignobleManager>();
 builder.Services.AddScoped<IDataRepository<CatSejour>, CatSejourManager>();
+builder.Services.AddScoped<IDataRepository<Lien>, LienManager>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
