@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WS_VINOTRIP.Models.EntityFramework;
+using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
@@ -13,95 +14,48 @@ namespace WS_VINOTRIP.Controllers
     [ApiController]
     public class RouteDesVinsController : ControllerBase
     {
-        private readonly VinotripDBContext _context;
+        private readonly IDataRepository<RouteDesVins> dataRepository;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
+        private readonly IDataRepository<LienRouteDesVins> dataRepositoryLienRouteDesVins;
 
-        public RouteDesVinsController(VinotripDBContext context)
+        public RouteDesVinsController(IDataRepository<RouteDesVins> dataRepo, IDataRepository<Lien> dataRepoLien, IDataRepository<LienRouteDesVins> dataRepoLienRouteDesVins)
         {
-            _context = context;
+            dataRepository = dataRepo;
+            dataRepositoryLien = dataRepoLien;
+            dataRepositoryLienRouteDesVins = dataRepoLienRouteDesVins;
         }
 
         // GET: api/RouteDesVins
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RouteDesVins>>> GetRoutesDesVins()
         {
-            return await _context.RoutesDesVins.ToListAsync();
+            var routeDesVins = dataRepository.GetAllAsync().Result;
+            var liens = dataRepositoryLien.GetAllAsync().Result;
+            var liensRdv = dataRepositoryLienRouteDesVins.GetAllAsync().Result;
+
+            if (routeDesVins == null)
+            {
+                return NotFound();
+            }
+            return routeDesVins;
         }
 
         // GET: api/RouteDesVins/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RouteDesVins>> GetRouteDesVins(int id)
         {
-            var routeDesVins = await _context.RoutesDesVins.FindAsync(id);
+            var vignoble = dataRepository.GetByIdAsync(id).Result;
+            var lien = dataRepositoryLien.GetAllAsync().Result;
+            var liensRdv = dataRepositoryLienRouteDesVins.GetAllAsync().Result;
 
-            if (routeDesVins == null)
+            if (vignoble == null)
             {
                 return NotFound();
             }
 
-            return routeDesVins;
+            return vignoble;
         }
 
-        // PUT: api/RouteDesVins/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRouteDesVins(int id, RouteDesVins routeDesVins)
-        {
-            if (id != routeDesVins.RouteDesVinsId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(routeDesVins).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RouteDesVinsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/RouteDesVins
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<RouteDesVins>> PostRouteDesVins(RouteDesVins routeDesVins)
-        {
-            _context.RoutesDesVins.Add(routeDesVins);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetRouteDesVins", new { id = routeDesVins.RouteDesVinsId }, routeDesVins);
-        }
-
-        // DELETE: api/RouteDesVins/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRouteDesVins(int id)
-        {
-            var routeDesVins = await _context.RoutesDesVins.FindAsync(id);
-            if (routeDesVins == null)
-            {
-                return NotFound();
-            }
-
-            _context.RoutesDesVins.Remove(routeDesVins);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool RouteDesVinsExists(int id)
-        {
-            return _context.RoutesDesVins.Any(e => e.RouteDesVinsId == id);
-        }
+       
     }
 }
