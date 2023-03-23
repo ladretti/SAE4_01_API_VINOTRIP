@@ -36,6 +36,7 @@ builder.Services.AddScoped<IDataRepository<CatSejour>, CatSejourManager>();
 builder.Services.AddScoped<IDataRepository<Lien>, LienManager>();
 builder.Services.AddScoped<IDataRepository<LienSejour>, LienSejourManager>();
 builder.Services.AddScoped<IDataRepository<LienRouteDesVins>, LienRouteDesVinsManager>();
+builder.Services.AddScoped<IDataRepository<Etape>, EtapeManager>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
