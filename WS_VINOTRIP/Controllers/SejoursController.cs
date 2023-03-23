@@ -15,12 +15,16 @@ namespace WS_VINOTRIP.Controllers
     public class SejoursController : ControllerBase
     {
         private readonly IDataRepository<Sejour> dataRepository;
-        private readonly IDataRepository<Comporte> dataRepository2;
+        private readonly IDataRepository<Comporte> dataRepositoryComporte;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
+        private readonly IDataRepository<LienSejour> dataRepositoryLienSejour;
         /*private readonly IDataRepository<CatParticipant> dataRepository3;*/
-        public SejoursController(IDataRepository<Sejour> dataRepo, IDataRepository<Comporte> dataRepo2/*, IDataRepository<CatParticipant> dataRepo3*/)
+        public SejoursController(IDataRepository<Sejour> dataRepo, IDataRepository<Comporte> dataRepoComporte, IDataRepository<LienSejour> dataRepoLienSejour, IDataRepository<Lien> dataRepoLien)
         {
             dataRepository = dataRepo;
-            dataRepository2 = dataRepo2;
+            dataRepositoryComporte = dataRepoComporte;
+            dataRepositoryLien = dataRepoLien;
+            dataRepositoryLienSejour = dataRepoLienSejour;
             /*dataRepository3 = dataRepo3;*/
         }
 
@@ -28,7 +32,9 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sejour>>> GetSejours()
         {
-            var catparticipant = dataRepository2.GetAllAsync().Result;
+            var catparticipant = dataRepositoryComporte.GetAllAsync().Result;
+            var liensejour = dataRepositoryLienSejour.GetAllAsync().Result;
+            var lien = dataRepositoryLien.GetAllAsync().Result;
 
             var sejours = dataRepository.GetAllAsync().Result;
 
@@ -46,7 +52,9 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<Sejour>> GetSejourById(int id)
         {
             var sejour = dataRepository.GetByIdAsync(id).Result;
-            var catparticipant = dataRepository2.GetAllAsync().Result;
+            var catparticipant = dataRepositoryComporte.GetAllAsync().Result;
+            var liensejour = dataRepositoryLienSejour.GetAllAsync().Result;
+            var lien = dataRepositoryLien.GetAllAsync().Result;
 
             if (sejour == null)
             {
@@ -67,7 +75,7 @@ namespace WS_VINOTRIP.Controllers
             if (catsejour == null && catvignoble == null && catparticipant == null)
                 return dataRepository.GetAllAsync().Result;
             
-            var truc = dataRepository2.GetAllAsync().Result.Value.Where(e => e.CatParticipantId == catparticipant);
+            var truc = dataRepositoryComporte.GetAllAsync().Result.Value.Where(e => e.CatParticipantId == catparticipant);
 
             foreach (var item in truc)
             {

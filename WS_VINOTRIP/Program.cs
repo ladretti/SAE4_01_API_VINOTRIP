@@ -34,6 +34,7 @@ builder.Services.AddScoped<IDataRepository<CatParticipant>, CatParticipantManage
 builder.Services.AddScoped<IDataRepository<CatVignoble>, CatVignobleManager>();
 builder.Services.AddScoped<IDataRepository<CatSejour>, CatSejourManager>();
 builder.Services.AddScoped<IDataRepository<Lien>, LienManager>();
+builder.Services.AddScoped<IDataRepository<LienSejour>, LienSejourManager>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

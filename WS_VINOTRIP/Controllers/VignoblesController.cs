@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WS_VINOTRIP.Models.EntityFramework;
+using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
@@ -13,25 +14,35 @@ namespace WS_VINOTRIP.Controllers
     [ApiController]
     public class VignoblesController : ControllerBase
     {
-        private readonly VinotripDBContext _context;
+        private readonly IDataRepository<Vignoble> dataRepository;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
 
-        public VignoblesController(VinotripDBContext context)
+        public VignoblesController(IDataRepository<Vignoble> dataRepo, IDataRepository<Lien> dataRepoLien)
         {
-            _context = context;
+            dataRepository = dataRepo;
+            dataRepositoryLien = dataRepoLien;
         }
 
         // GET: api/Vignobles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vignoble>>> GetRoutesDesVins()
+        public async Task<ActionResult<IEnumerable<Vignoble>>> GetVignobles()
         {
-            return await _context.Vignobles.ToListAsync();
+            var vignobles = dataRepository.GetAllAsync().Result;
+            var liens = dataRepositoryLien.GetAllAsync().Result;
+
+            if (vignobles == null)
+            {
+                return NotFound();
+            }
+            return vignobles;
         }
 
         // GET: api/Vignobles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vignoble>> GetVignobles(int id)
+        public async Task<ActionResult<Vignoble>> GetVignobleById(int id)
         {
-            var vignoble = await _context.Vignobles.FindAsync(id);
+            var vignoble = dataRepository.GetByIdAsync(id).Result;
+            var lien = dataRepositoryLien.GetByIdAsync(dataRepository.GetByIdAsync(id).Result.Value.LienId).Result;
 
             if (vignoble == null)
             {
@@ -39,69 +50,6 @@ namespace WS_VINOTRIP.Controllers
             }
 
             return vignoble;
-        }
-
-        // PUT: api/Vignobles/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutVignobles(int id, Vignoble vignoble)
-        {
-            if (id != vignoble.VignobleId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(vignoble).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VignoblesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Vignobles
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Vignoble>> PostVignobles(Vignoble vignoble)
-        {
-            _context.Vignobles.Add(vignoble);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetVignobles", new { id = vignoble.VignobleId }, vignoble);
-        }
-
-        // DELETE: api/Vignobles/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVignobles(int id)
-        {
-            var vignoble = await _context.Vignobles.FindAsync(id);
-            if (vignoble == null)
-            {
-                return NotFound();
-            }
-
-            _context.Vignobles.Remove(vignoble);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool VignoblesExists(int id)
-        {
-            return _context.Vignobles.Any(e => e.VignobleId == id);
         }
     }
 }
