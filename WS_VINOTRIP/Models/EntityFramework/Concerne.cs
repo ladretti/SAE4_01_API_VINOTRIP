@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace WS_VINOTRIP.Models.EntityFramework
 {
@@ -15,7 +17,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public int ElementId { get; set; }
         
         [Required, Column("ccr_horaire", TypeName = "time")]
-        public TimeOnly Horaire { get; set; }
+        public TimeOnly? Horaire { get; set; }
 
         //InverseProperty
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using WS_VINOTRIP.Models.EntityFramework;
 using WS_VINOTRIP.Models.Repository;
 
@@ -15,10 +9,14 @@ namespace WS_VINOTRIP.Controllers
     public class EtapeController : ControllerBase
     {
         private readonly IDataRepository<Etape> dataRepository;
+        private readonly IDataRepository<Concerne> dataRepositoryConcerne;
+        private readonly IDataRepository<ElementEtape> dataRepositoryElementEtape;
 
-        public EtapeController(IDataRepository<Etape> dataRepo)
+        public EtapeController(IDataRepository<Etape> dataRepo, IDataRepository<Concerne> dataRepoConcerne, IDataRepository<ElementEtape> dataRepoElementEtape)
         {
             dataRepository = dataRepo;
+            dataRepositoryConcerne = dataRepoConcerne;
+            dataRepositoryElementEtape = dataRepoElementEtape;
         }
 
 
@@ -26,7 +24,39 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Etape>>> GetEtape()
         {
-            return dataRepository.GetAllAsync().Result;
+            var etape = dataRepository.GetAllAsync().Result;
+
+            if (etape == null)
+            {
+                return NotFound();
+            }
+            return etape;
+        }
+
+        // GET: api/Concerne
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Concerne>>> GetConcerne()
+        {
+            var concerne = dataRepositoryConcerne.GetAllAsync().Result;
+
+            if (concerne == null)
+            {
+                return NotFound();
+            }
+            return concerne;
+        }
+
+        // GET: api/ElementEtape
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ElementEtape>>> GetElementEtape()
+        {
+            var elementEtape = dataRepositoryElementEtape.GetAllAsync().Result;
+
+            if (elementEtape == null)
+            {
+                return NotFound();
+            }
+            return elementEtape;
         }
 
         // GET: api/Etape/5
@@ -36,6 +66,8 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<Etape>> GetEtapeById(int id)
         {
             var etape = dataRepository.GetByIdAsync(id).Result;
+            var concerne = dataRepositoryConcerne.GetAllAsync().Result;
+            var elementEtape = dataRepositoryElementEtape.GetAllAsync().Result;
 
             if (etape == null)
             {
