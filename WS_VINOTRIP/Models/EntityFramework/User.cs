@@ -14,11 +14,23 @@ namespace WS_VINOTRIP.Models.EntityFramework
         [Key, Column("prs_id")]
         public int PersonneId { get; set; }
 
+        [Column("usr_titreclient"), StringLength(5)]
+        public string? Titre { get; set; }
+
+        [Required, Column("usr_prenomclient")]
+        public string? Prenom { get; set; }
+
         [Required, StringLength(30), Column("usr_pseudo")]
         public string? Pseudo { get; set; }
 
+        [Column("usr_datenaissance", TypeName = "date")]
+        public DateTime DateNaissance { get; set; }
+
         [Column("usr_tel", TypeName = "char(10)"), RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Numéro de téléphone non valide")]
         public string? Tel { get; set; }
+
+        [Required, Column("usr_mdp"), StringLength(100)]
+        public string? Mdp { get; set; }
 
         [Required, Column("usr_newsletter")]
         public bool Newsletter { get; set; }
@@ -26,23 +38,11 @@ namespace WS_VINOTRIP.Models.EntityFramework
         [Required, Column("usr_estverifie")]
         public bool EstVerifie { get; set; }
 
-        [Required, Column("usr_role")]
-        public string? Role { get; set; }
-
         [Required, Column("usr_dateconnexion", TypeName = "date")]
         public DateTime DateConnexion { get; set; }
 
-        [Column("usr_titreclient"), StringLength(5)]
-        public string? Titre { get; set; }
-
-        [Required, Column("usr_prenomclient")]
-        public string? Prenom { get; set; }
-
-        [Column("usr_datenaissance", TypeName = "date")]
-        public DateTime DateNaissance { get; set; }
-
-        [Required, Column("usr_mdp"), StringLength(100)]
-        public string? Mdp { get; set; }
+        [Required, Column("usr_role")]
+        public string? Role { get; set; }
 
         //InverseProperty
 

@@ -17,10 +17,12 @@ namespace WS_VINOTRIP.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IDataRepository<User> dataRepository;
+        private readonly IDataRepository<Personne> dataRepositoryPersonne;
 
-        public UsersController(IDataRepository<User> dataRepo)
+        public UsersController(IDataRepository<User> dataRepo, IDataRepository<Personne> dataRepoPersonne)
         {
             dataRepository = dataRepo;
+            dataRepositoryPersonne = dataRepoPersonne;
         }
 
         [HttpGet]
@@ -88,7 +90,21 @@ namespace WS_VINOTRIP.Controllers
 
             dataRepository.AddAsync(user);
 
-            return CreatedAtAction("GetById", new { id = user.PersonneId }, user); // GetById : nom de l’action
+            return CreatedAtAction("PostUser", new { id = user.PersonneId }, user); // GetById : nom de l’action
+            /*{
+                "pseudo": "Cessouille",
+                "tel": "0782602628",
+                "newsletter": true,
+                "estVerifie": true,
+                "role": "user",
+                "dateConnexion": "2023-03-24T08:37:36.337Z",
+                "titre": "M.",
+                "prenom": "Célian",
+                "dateNaissance": "2003-08-07",
+                "mdp": "oui",
+                "resideUser": [],
+                "personneUser": null
+            }*/
         }
 
         // DELETE: api/Users/5
@@ -111,5 +127,5 @@ namespace WS_VINOTRIP.Controllers
          {
              return dataRepository.Any(e => e.PersonneId == id);
          }*/
+        }
     }
-}
