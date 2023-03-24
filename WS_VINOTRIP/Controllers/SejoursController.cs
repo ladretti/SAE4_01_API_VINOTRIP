@@ -93,6 +93,31 @@ namespace WS_VINOTRIP.Controllers
             return filterList;
         }
 
+        // GET: api/Sejours/5
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetByRoute")]
+        public async Task<ActionResult<IEnumerable<Sejour>>> GetSejoursByRouteDesVins(int id)
+        {
+            var catparticipant = dataRepositoryComporte.GetAllAsync().Result;
+            var liensejour = dataRepositoryLienSejour.GetAllAsync().Result;
+            var lien = dataRepositoryLien.GetAllAsync().Result;
+
+            var sejours = dataRepository.GetAllAsync().Result.Value.Where(e => e.RouteVinId == id);
+            List<Sejour> sejoursRdvList = new List<Sejour>();
+            foreach(var item in sejours)
+            {
+                sejoursRdvList.Add(item);
+            }
+
+
+            if (sejours == null)
+            {
+                return NotFound();
+            }
+            return sejoursRdvList;
+        }
+
         // PUT: api/Sejours/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

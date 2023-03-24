@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WS_VINOTRIP.Models.DataManager;
 using WS_VINOTRIP.Models.EntityFramework;
 using WS_VINOTRIP.Models.Repository;
 
@@ -16,11 +17,15 @@ namespace WS_VINOTRIP.Controllers
     {
         private readonly IDataRepository<Vignoble> dataRepository;
         private readonly IDataRepository<Lien> dataRepositoryLien;
+        private readonly IDataRepository<ElementVignoble> dataRepositoryElementVignoble;
+        private readonly IDataRepository<LienElementVignoble> dataRepositoryLienElementVignoble;
 
-        public VignoblesController(IDataRepository<Vignoble> dataRepo, IDataRepository<Lien> dataRepoLien)
+        public VignoblesController(IDataRepository<Vignoble> dataRepo, IDataRepository<Lien> dataRepoLien, IDataRepository<ElementVignoble> dataRepoElementVignoble, IDataRepository<LienElementVignoble> dataRepoLienElementVignoble)
         {
             dataRepository = dataRepo;
             dataRepositoryLien = dataRepoLien;
+            dataRepositoryElementVignoble = dataRepoElementVignoble;
+            dataRepositoryLienElementVignoble = dataRepoLienElementVignoble;
         }
 
         // GET: api/Vignobles
@@ -42,7 +47,9 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<Vignoble>> GetVignobleById(int id)
         {
             var vignoble = dataRepository.GetByIdAsync(id).Result;
-            var lien = dataRepositoryLien.GetByIdAsync(dataRepository.GetByIdAsync(id).Result.Value.LienId).Result;
+            var lien = dataRepositoryLien.GetAllAsync().Result;
+            var elementsVignobles = dataRepositoryElementVignoble.GetAllAsync().Result;
+            var lienElementsVignobles = dataRepositoryLienElementVignoble.GetAllAsync().Result;
 
             if (vignoble == null)
             {

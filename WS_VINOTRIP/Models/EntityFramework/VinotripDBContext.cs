@@ -25,6 +25,12 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public virtual DbSet<LienSejour>? LienSejours { get; set; }
         public virtual DbSet<LienRouteDesVins>? LienRouteDesVinss { get; set; }
         public virtual DbSet<Etape>? Etapes { get; set; }
+        public virtual DbSet<ElementVignoble>? ElementsVignoble { get; set; }
+        public virtual DbSet<LienElementVignoble>? LiensElementVignoble { get; set; }
+        public virtual DbSet<Personne>? Personnes { get; set; }
+        public virtual DbSet<ElementEtape>? ElementEtapes { get; set; }
+        public virtual DbSet<Concerne>? Concernes { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql("Server=51.83.36.122;port=5432;Database=vinotrique;SearchPath=vinotrip; uid=s222; password=8F1ASd"); //à changer

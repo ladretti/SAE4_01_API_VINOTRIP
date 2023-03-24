@@ -37,6 +37,11 @@ builder.Services.AddScoped<IDataRepository<Lien>, LienManager>();
 builder.Services.AddScoped<IDataRepository<LienSejour>, LienSejourManager>();
 builder.Services.AddScoped<IDataRepository<LienRouteDesVins>, LienRouteDesVinsManager>();
 builder.Services.AddScoped<IDataRepository<Etape>, EtapeManager>();
+builder.Services.AddScoped<IDataRepository<ElementVignoble>, ElementVignobleManager>();
+builder.Services.AddScoped<IDataRepository<LienElementVignoble>, LienElementVignobleManager>();
+builder.Services.AddScoped<IDataRepository<Personne>, PersonneManager>();
+builder.Services.AddScoped<IDataRepository<Concerne>, ConcerneManager>();
+builder.Services.AddScoped<IDataRepository<ElementEtape>, ElementEtapeManager>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -66,7 +71,12 @@ builder.Services.AddAuthorization(config =>
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
     options.JsonSerializerOptions.WriteIndented = true;
+});
+builder.Services.AddMvc(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
 });
 
 var app = builder.Build();
