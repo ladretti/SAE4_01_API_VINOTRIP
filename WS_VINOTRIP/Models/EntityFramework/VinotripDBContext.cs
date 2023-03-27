@@ -30,6 +30,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public virtual DbSet<Personne>? Personnes { get; set; }
         public virtual DbSet<ElementEtape>? ElementEtapes { get; set; }
         public virtual DbSet<Concerne>? Concernes { get; set; }
+        public virtual DbSet<Panier>? Paniers { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
