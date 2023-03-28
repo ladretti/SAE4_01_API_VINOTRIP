@@ -17,7 +17,7 @@ namespace WS_VINOTRIP.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -315,7 +315,8 @@ namespace WS_VINOTRIP.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ele_id");
 
-                    b.Property<TimeOnly>("Horaire")
+                    b.Property<TimeOnly?>("Horaire")
+                        .IsRequired()
                         .HasColumnType("time")
                         .HasColumnName("ccr_horaire");
 
@@ -634,6 +635,10 @@ namespace WS_VINOTRIP.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("prs_id");
 
+                    b.Property<bool>("Offert")
+                        .HasColumnType("boolean")
+                        .HasColumnName("pnr_offert");
+
                     b.Property<DateTime>("DateSejour")
                         .HasColumnType("date")
                         .HasColumnName("pnr_datesejour");
@@ -650,15 +655,11 @@ namespace WS_VINOTRIP.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("pnr_nbenfants");
 
-                    b.Property<bool>("Offert")
-                        .HasColumnType("boolean")
-                        .HasColumnName("pnr_offert");
-
                     b.Property<decimal>("PrixTotal")
                         .HasColumnType("numeric(9,2)")
                         .HasColumnName("pnr_prixtotal");
 
-                    b.HasKey("SejourId", "PersonneId")
+                    b.HasKey("SejourId", "PersonneId", "Offert")
                         .HasName("pk_pnr");
 
                     b.HasIndex("PersonneId");
@@ -1122,27 +1123,6 @@ namespace WS_VINOTRIP.Migrations
                     b.ToTable("t_e_sejourcadeau_sjc");
                 });
 
-            modelBuilder.Entity("WS_VINOTRIP.Models.EntityFramework.TypeCompte", b =>
-                {
-                    b.Property<int>("TypeCompteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("tpc_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TypeCompteId"));
-
-                    b.Property<string>("Libelle")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("tpc_libelle");
-
-                    b.HasKey("TypeCompteId")
-                        .HasName("pk_tpc");
-
-                    b.ToTable("t_e_typecompte_tpc");
-                });
-
             modelBuilder.Entity("WS_VINOTRIP.Models.EntityFramework.TypeElementEtape", b =>
                 {
                     b.Property<int>("TypeElementEtapeId")
@@ -1197,10 +1177,6 @@ namespace WS_VINOTRIP.Migrations
                         .HasColumnType("date")
                         .HasColumnName("usr_datenaissance");
 
-                    b.Property<bool>("EstVerifie")
-                        .HasColumnType("boolean")
-                        .HasColumnName("usr_estverifie");
-
                     b.Property<string>("Mdp")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -1214,13 +1190,18 @@ namespace WS_VINOTRIP.Migrations
                     b.Property<string>("Prenom")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("usr_prenomclient");
+                        .HasColumnName("usr_prenom");
 
                     b.Property<string>("Pseudo")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("usr_pseudo");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usr_role");
 
                     b.Property<string>("Tel")
                         .HasColumnType("char(10)")
@@ -1229,24 +1210,13 @@ namespace WS_VINOTRIP.Migrations
                     b.Property<string>("Titre")
                         .HasMaxLength(5)
                         .HasColumnType("character varying(5)")
-                        .HasColumnName("usr_titreclient");
-
-                    b.Property<int>("TypeCompteId")
-                        .HasColumnType("integer")
-                        .HasColumnName("tpc_id");
-
-                    b.Property<string>("UserRole")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("usr_estadmin");
+                        .HasColumnName("usr_titre");
 
                     b.HasKey("PersonneId")
                         .HasName("pk_usr");
 
                     b.HasAlternateKey("Pseudo")
                         .HasName("uq_usr_pseudo");
-
-                    b.HasIndex("TypeCompteId");
 
                     b.ToTable("t_e_user_usr");
 
@@ -1906,16 +1876,7 @@ namespace WS_VINOTRIP.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_usr_prs");
 
-                    b.HasOne("WS_VINOTRIP.Models.EntityFramework.TypeCompte", "TypeCompteUser")
-                        .WithMany("UserTypeCompte")
-                        .HasForeignKey("TypeCompteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_usr_tpc");
-
                     b.Navigation("PersonneUser");
-
-                    b.Navigation("TypeCompteUser");
                 });
 
             modelBuilder.Entity("WS_VINOTRIP.Models.EntityFramework.Vignoble", b =>
@@ -2075,11 +2036,6 @@ namespace WS_VINOTRIP.Migrations
                     b.Navigation("ReservationsSejour");
 
                     b.Navigation("SejourCadeauSejour");
-                });
-
-            modelBuilder.Entity("WS_VINOTRIP.Models.EntityFramework.TypeCompte", b =>
-                {
-                    b.Navigation("UserTypeCompte");
                 });
 
             modelBuilder.Entity("WS_VINOTRIP.Models.EntityFramework.TypeElementEtape", b =>

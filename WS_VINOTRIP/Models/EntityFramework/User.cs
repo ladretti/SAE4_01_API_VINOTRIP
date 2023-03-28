@@ -14,10 +14,10 @@ namespace WS_VINOTRIP.Models.EntityFramework
         [Key, Column("prs_id")]
         public int PersonneId { get; set; }
 
-        [Column("usr_titreclient"), StringLength(5)]
+        [Column("usr_titre"), StringLength(5)]
         public string? Titre { get; set; }
 
-        [Required, Column("usr_prenomclient")]
+        [Required, Column("usr_prenom")]
         public string? Prenom { get; set; }
 
         [Required, StringLength(30), Column("usr_pseudo")]
@@ -34,9 +34,6 @@ namespace WS_VINOTRIP.Models.EntityFramework
 
         [Required, Column("usr_newsletter")]
         public bool Newsletter { get; set; }
-
-        [Required, Column("usr_estverifie")]
-        public bool EstVerifie { get; set; }
 
         [Required, Column("usr_dateconnexion", TypeName = "date")]
         public DateTime DateConnexion { get; set; }

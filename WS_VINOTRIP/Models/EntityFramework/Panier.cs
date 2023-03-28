@@ -23,7 +23,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
         [Required, Column("pnr_nbchambres")]
         public int NbChambres { get; set; }
 
-        [Required, Column("pnr_offert")]
+        [Required, Column("pnr_offert"), Key]
         public bool Offert { get; set; }
 
         [Required, Column("pnr_prixtotal", TypeName = "numeric(9,2)")]

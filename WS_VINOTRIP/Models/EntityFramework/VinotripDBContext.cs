@@ -34,7 +34,8 @@ namespace WS_VINOTRIP.Models.EntityFramework
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Server=51.83.36.122;port=5432;Database=vinotrique;SearchPath=vinotrip; uid=s222; password=8F1ASd"); //à changer
+            => optionsBuilder.UseNpgsql("Server=vinotrip.postgres.database.azure.com;port=5432;Database=vinotrique; uid=vinotrip_admin; password=Prout18#"); //à changer
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -361,7 +362,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
 
             modelBuilder.Entity<Panier>(entity =>
             {
-                entity.HasKey(e => new { e.SejourId, e.PersonneId })
+                entity.HasKey(e => new { e.SejourId, e.PersonneId, e.Offert })
                     .HasName("pk_pnr");
 
                 entity.HasOne(d => d.SejourPanier).WithMany(p => p.PanierSejour)

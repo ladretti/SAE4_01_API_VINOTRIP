@@ -15,17 +15,21 @@ namespace WS_VINOTRIP.Controllers
     public class PaniersController : ControllerBase
     {
         private readonly IDataRepository<Panier> dataRepository;
+        private readonly IDataRepository<Sejour> dataRepositorySejour;
 
-        public PaniersController(IDataRepository<Panier> dataRepo)
+        public PaniersController(IDataRepository<Panier> dataRepo, IDataRepository<Sejour> dataRepoSejour)
         {
             dataRepository = dataRepo;
+            dataRepositorySejour = dataRepoSejour;
         }
 
         // GET: api/Paniers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Panier>>> GetPaniers()
         {
-            return dataRepository.GetAllAsync().Result;
+            var paniers = dataRepository.GetAllAsync().Result;
+            var sejours = dataRepositorySejour.GetAllAsync().Result;
+            return paniers;
         }
 
         // GET: api/Paniers/5
@@ -35,6 +39,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<Panier>> GetPanier(int id)
         {
             var panier = dataRepository.GetByIdAsync(id).Result;
+            var sejour = dataRepository.GetAllAsync().Result;
 
             if (panier == null)
             {
@@ -50,10 +55,11 @@ namespace WS_VINOTRIP.Controllers
         [ActionName("GetByUserId")]
         public async Task<ActionResult<IEnumerable<Panier>>> GetPanierByUserId(int id)
         {
-            var panier = dataRepository.GetAllAsync().Result.Value.Where(e => e.PersonneId== id);
+            var panier = dataRepository.GetAllAsync().Result.Value.Where(e => e.PersonneId == id);
+            var sejour = dataRepository.GetAllAsync().Result;
             List<Panier> panierList = new List<Panier>();
 
-            foreach(var e in panier)
+            foreach (var e in panier)
             {
                 panierList.Add(e);
             }
