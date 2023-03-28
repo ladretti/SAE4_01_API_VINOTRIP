@@ -12,17 +12,15 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IDataRepository<User> dataRepository;
-        private readonly IDataRepository<Personne> dataRepositoryPersonne;
 
-        public UsersController(IDataRepository<User> dataRepo, IDataRepository<Personne> dataRepoPersonne)
+        public UsersController(IDataRepository<User> dataRepo)
         {
             dataRepository = dataRepo;
-            dataRepositoryPersonne = dataRepoPersonne;
         }
 
         [HttpGet]
@@ -40,11 +38,28 @@ namespace WS_VINOTRIP.Controllers
             return Ok("This is a response from Admin method");
         }
 
+        // GET: api/Users
+        [HttpGet]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        {
+            var users = await dataRepository.GetAllAsync();
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return users;
+        }
+
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [ActionName("GetUserById")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<User>> GetUserById(int id)
         {
-            var sejour = dataRepository.GetByIdAsync(id).Result;
+            var sejour = await dataRepository.GetByIdAsync(id);
 
             if (sejour == null)
             {
@@ -57,6 +72,8 @@ namespace WS_VINOTRIP.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> PutUser(int id, User user)
         {
             if (id != user.PersonneId)
@@ -64,16 +81,16 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest();
             }
 
-            var sejourToUpdate = dataRepository.GetByIdAsync(id);
+            var userToUpdate = await dataRepository.GetByIdAsync(id);
 
-            if (sejourToUpdate == null)
+            if (userToUpdate == null)
             {
                 return NotFound();
             }
 
             else
             {
-                dataRepository.UpdateAsync(sejourToUpdate.Result.Value, user);
+                await dataRepository.UpdateAsync(userToUpdate.Value, user);
                 return NoContent();
             }
         }
@@ -81,6 +98,8 @@ namespace WS_VINOTRIP.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<User>> PostUser(User user)
         {
             if (!ModelState.IsValid)
@@ -88,9 +107,9 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest(ModelState);
             }
 
-            dataRepository.AddAsync(user);
+            await dataRepository.AddAsync(user);
 
-            return CreatedAtAction("PostUser", new { id = user.PersonneId }, user); // GetById : nom de l’action
+            return CreatedAtAction("GetUserById", new { id = user.PersonneId }, user); // GetUserById : nom de l’action
             /*{
                 "pseudo": "Cessouille",
                 "tel": "0782602628",
@@ -109,16 +128,18 @@ namespace WS_VINOTRIP.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var sejour = dataRepository.GetByIdAsync(id);
+            var user = await dataRepository.GetByIdAsync(id);
 
-            if (sejour == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            dataRepository.DeleteAsync(sejour.Result.Value);
+            await dataRepository.DeleteAsync(user.Value);
 
             return NoContent();
         }

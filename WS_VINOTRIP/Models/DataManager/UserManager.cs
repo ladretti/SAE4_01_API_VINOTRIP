@@ -26,9 +26,9 @@ namespace WS_VINOTRIP.Models.DataManager
             return await vinotripDbContext.Users.FirstOrDefaultAsync(e => e.PersonneId == id);
         }
 
-        public async Task<ActionResult<User>> GetByStringAsync(string prenom)
+        public async Task<ActionResult<User>> GetByStringAsync(string pseudo)
         {
-            return await vinotripDbContext.Users.FirstOrDefaultAsync(u => u.Prenom.ToUpper() == prenom.ToUpper());
+            return await vinotripDbContext.Users.FirstOrDefaultAsync(u => u.Pseudo.ToUpper() == pseudo.ToUpper());
         }
 
         public async Task AddAsync(User entity)
@@ -39,6 +39,18 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task UpdateAsync(User user, User entity)
         {
+            vinotripDbContext.Entry(entity).State = EntityState.Modified;
+            user.PersonneId = entity.PersonneId;
+            user.Titre = entity.Titre;
+            user.Prenom = entity.Prenom;
+            user.Pseudo = entity.Pseudo;
+            user.DateNaissance = entity.DateNaissance;
+            user.Tel = entity.Tel;
+            user.Mdp = entity.Mdp;
+            user.Newsletter = entity.Newsletter;
+            user.DateConnexion = entity.DateConnexion;
+            user.Role = entity.Role;
+            await vinotripDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(User user)

@@ -20,14 +20,14 @@ namespace WS_VINOTRIP.Models.DataManager
             return await vinotripDbContext.Personnes.ToListAsync();
         }
 
-        public Task<ActionResult<Personne>> GetByIdAsync(int id)
+        public async Task<ActionResult<Personne>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await vinotripDbContext.Personnes.FirstOrDefaultAsync(e => e.PersonneId == id);
         }
 
-        public Task<ActionResult<Personne>> GetByStringAsync(string numen)
+        public async Task<ActionResult<Personne>> GetByStringAsync(string mail)
         {
-            throw new NotImplementedException();
+            return await vinotripDbContext.Personnes.FirstOrDefaultAsync(u => u.Mail.ToUpper() == mail.ToUpper());
         }
 
         public async Task AddAsync(Personne entity)
@@ -36,14 +36,19 @@ namespace WS_VINOTRIP.Models.DataManager
             await vinotripDbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Personne entity)
+        public async Task UpdateAsync(Personne personne, Personne entity)
         {
-            throw new NotImplementedException();
+            vinotripDbContext.Entry(entity).State = EntityState.Modified;
+            personne.PersonneId = entity.PersonneId;
+            personne.Nom = entity.Nom;
+            personne.Mail = entity.Mail;
+            await vinotripDbContext.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(Personne entity1, Personne entity2)
+        public async Task DeleteAsync(Personne entity)
         {
-            throw new NotImplementedException();
+            vinotripDbContext.Personnes.Remove(entity);
+            await vinotripDbContext.SaveChangesAsync();
         }
     }
 }

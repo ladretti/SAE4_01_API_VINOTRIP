@@ -10,7 +10,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class PersonnesController : ControllerBase
     {
@@ -23,9 +23,10 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Personnes
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Personne>>> GetPersonnes()
         {
-            var personnes = dataRepository.GetAllAsync().Result;
+            var personnes = await dataRepository.GetAllAsync();
 
             if (personnes == null)
             {
@@ -35,12 +36,13 @@ namespace WS_VINOTRIP.Controllers
         }
 
         // GET: api/Personnes/5
-        [HttpGet]
-        [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [HttpGet("{id}")]
+        [ActionName("GetPersonneById")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Personne>> GetPersonneById(int id)
         {
-            var personne = dataRepository.GetByIdAsync(id).Result;
+            var personne = await dataRepository.GetByIdAsync(id);
 
             if (personne == null)
             {
@@ -51,10 +53,10 @@ namespace WS_VINOTRIP.Controllers
         }
 
         [HttpGet]
-        [Route("[action]")]
+        [ActionName("GetMaxPersonneId")]
         public async Task<ActionResult<int>> GetMaxPersonneId()
         {
-            var maxId = dataRepository.GetAllAsync().Result.Value.Max(e => e.PersonneId);
+            var maxId = (await dataRepository.GetAllAsync()).Value.Max(e => e.PersonneId);
 
             return maxId;
         }
@@ -62,6 +64,8 @@ namespace WS_VINOTRIP.Controllers
         // PUT: api/Personnes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> PutPersonne(int id, Personne personne)
         {
             if (id != personne.PersonneId)
@@ -69,7 +73,7 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest();
             }
 
-            var personneToUpdate = dataRepository.GetByIdAsync(id);
+            var personneToUpdate = await dataRepository.GetByIdAsync(id);
 
             if (personneToUpdate == null)
             {
@@ -78,7 +82,7 @@ namespace WS_VINOTRIP.Controllers
 
             else
             {
-                dataRepository.UpdateAsync(personneToUpdate.Result.Value, personne);
+                await dataRepository.UpdateAsync(personneToUpdate.Value, personne);
                 return NoContent();
             }
         }
@@ -86,6 +90,8 @@ namespace WS_VINOTRIP.Controllers
         // POST: api/Personnes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<Personne>> PostPersonne(Personne personne)
         {
             if (!ModelState.IsValid)
@@ -93,23 +99,25 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest(ModelState);
             }
 
-            dataRepository.AddAsync(personne);
+            await dataRepository.AddAsync(personne);
 
-            return CreatedAtAction("PostPersonne", new { id = personne.PersonneId }, personne); // GetById : nom de l’action
+            return CreatedAtAction("GetPersonneById", new { id = personne.PersonneId }, personne); // GetPersonneById : nom de l’action
         }
 
         // DELETE: api/Personnes/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> DeletePersonne(int id)
         {
-            var personne = dataRepository.GetByIdAsync(id);
+            var personne = await dataRepository.GetByIdAsync(id);
 
             if (personne == null)
             {
                 return NotFound();
             }
 
-            dataRepository.DeleteAsync(personne.Result.Value);
+            await dataRepository.DeleteAsync(personne.Value);
 
             return NoContent();
         }
