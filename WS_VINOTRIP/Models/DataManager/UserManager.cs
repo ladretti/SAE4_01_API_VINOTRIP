@@ -13,7 +13,7 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public UserManager(VinotripDBContext context)
         {
-            vinotripDbContext = context;
+            vinotripDbContext = context; 
         }
 
         public async Task<ActionResult<IEnumerable<User>>> GetAllAsync()
