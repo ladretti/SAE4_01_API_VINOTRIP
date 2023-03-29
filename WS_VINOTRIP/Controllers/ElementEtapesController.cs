@@ -15,18 +15,30 @@ namespace WS_VINOTRIP.Controllers
     public class ElementEtapeController : ControllerBase
     {
         private readonly IDataRepository<ElementEtape> dataRepository;
+        private readonly IDataRepository<Contient> dataRepositoryContient;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
 
-        public ElementEtapeController(IDataRepository<ElementEtape> dataRepo)
+        public ElementEtapeController(IDataRepository<ElementEtape> dataRepo, IDataRepository<Contient> dataRepoContient, IDataRepository<Lien> dataRepoLien)
         {
             dataRepository = dataRepo;
+            dataRepositoryContient= dataRepoContient;
+            dataRepositoryLien = dataRepoLien;
         }
 
-        // GET: api/ElementEtape
+        // GET: api/Etape
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<ElementEtape>>> GetElementEtape()
         {
-            return await dataRepository.GetAllAsync();
+            var elementetape = await dataRepository.GetAllAsync();
+            var contient= dataRepositoryContient.GetAllAsync().Result;
+            var lien = dataRepositoryLien.GetAllAsync().Result;
+
+            if (elementetape == null)
+            {
+                return NotFound();
+            }
+            return elementetape;
         }
 
         // GET: api/ElementEtape/5

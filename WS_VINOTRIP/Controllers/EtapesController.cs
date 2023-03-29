@@ -11,12 +11,16 @@ namespace WS_VINOTRIP.Controllers
         private readonly IDataRepository<Etape> dataRepository;
         private readonly IDataRepository<Concerne> dataRepositoryConcerne;
         private readonly IDataRepository<ElementEtape> dataRepositoryElementEtape;
+        private readonly IDataRepository<LienEtape> dataRepositoryLienEtape;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
 
-        public EtapeController(IDataRepository<Etape> dataRepo, IDataRepository<Concerne> dataRepoConcerne, IDataRepository<ElementEtape> dataRepoElementEtape)
+        public EtapeController(IDataRepository<Etape> dataRepo, IDataRepository<Concerne> dataRepoConcerne, IDataRepository<ElementEtape> dataRepoElementEtape, IDataRepository<LienEtape> dataRepoLienEtape, IDataRepository<Lien> dataRepoLien)
         {
             dataRepository = dataRepo;
             dataRepositoryConcerne = dataRepoConcerne;
             dataRepositoryElementEtape = dataRepoElementEtape;
+            dataRepositoryLienEtape = dataRepoLienEtape;
+            dataRepositoryLien = dataRepoLien;
         }
 
 
@@ -26,6 +30,8 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<Etape>>> GetEtape()
         {
             var etape = await dataRepository.GetAllAsync();
+            var liensejour = dataRepositoryLienEtape.GetAllAsync().Result;
+            var lien = dataRepositoryLien.GetAllAsync().Result;
 
             if (etape == null)
             {
