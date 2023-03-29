@@ -43,7 +43,7 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task DeleteAsync(Contient contient)
         {
-            vinotripDbContext.LienEtapes.Remove(contient);
+            vinotripDbContext.Contients.Remove(contient);
             await vinotripDbContext.SaveChangesAsync();
         }
 
