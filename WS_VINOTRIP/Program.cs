@@ -43,7 +43,8 @@ builder.Services.AddScoped<IDataRepository<Personne>, PersonneManager>();
 builder.Services.AddScoped<IDataRepository<Concerne>, ConcerneManager>();
 builder.Services.AddScoped<IDataRepository<ElementEtape>, ElementEtapeManager>();
 builder.Services.AddScoped<IDataRepository<Panier>, PanierManager>();
-
+builder.Services.AddScoped<IDataRepository<LienEtape>, LienEtapeManager>();
+builder.Services.AddScoped<IDataRepository<Contient>, ContientManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
