@@ -31,8 +31,7 @@ namespace WS_VINOTRIP.Controllers
         }
 
         // GET: api/Avis/5
-        [HttpGet]
-        [Route("[action]/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<Avis>> GetAvisById(int id)
@@ -51,7 +50,7 @@ namespace WS_VINOTRIP.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<Avis>> PostAvis(Avis avis)
         {
             if (!ModelState.IsValid)
@@ -66,16 +65,18 @@ namespace WS_VINOTRIP.Controllers
 
         // DELETE: api/Avis/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> DeleteAvis(int id)
         {
-            var avis = dataRepository.GetByIdAsync(id);
+            var avis = await dataRepository.GetByIdAsync(id);
 
             if (avis == null)
             {
                 return NotFound();
             }
 
-            dataRepository.DeleteAsync(avis.Result.Value);
+            await dataRepository.DeleteAsync(avis.Value);
 
             return NoContent();
         }

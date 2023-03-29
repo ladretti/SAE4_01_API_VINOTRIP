@@ -157,10 +157,5 @@ namespace WS_VINOTRIP.Controllers
 
             return NoContent();
         }
-
-        /* private bool UserExists(int id)
-         {
-             return dataRepository.Any(e => e.PersonneId == id);
-         }*/
-        }
     }
+}

@@ -10,7 +10,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class LiensController : ControllerBase
     {
@@ -23,16 +23,19 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Liens
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Lien>>> GetLiens()
         {
-            return dataRepository.GetAllAsync().Result;
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Liens/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Lien>> GetLienById(int id)
         {
-            var lien = dataRepository.GetByIdAsync(id).Result;
+            var lien = await dataRepository.GetByIdAsync(id);
 
             if (lien == null)
             {
@@ -42,9 +45,37 @@ namespace WS_VINOTRIP.Controllers
             return lien;
         }
 
+        // PUT: api/liens/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Putlien(int id, Lien lien)
+        {
+            if (id != lien.LienId)
+            {
+                return BadRequest();
+            }
+
+            var lienToUpdate = await dataRepository.GetByIdAsync(id);
+
+            if (lienToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                await dataRepository.UpdateAsync(lienToUpdate.Value, lien);
+                return NoContent();
+            }
+        }
+
         // POST: api/Liens
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<Lien>> PostLien(Lien lien)
         {
             if (!ModelState.IsValid)
@@ -52,23 +83,25 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest(ModelState);
             }
 
-            dataRepository.AddAsync(lien);
+            await dataRepository.AddAsync(lien);
 
-            return CreatedAtAction("GetById", new { id = lien.LienId }, lien); // GetById : nom de l’action
+            return CreatedAtAction("GetLienById", new { id = lien.LienId }, lien); // GetById : nom de l’action
         }
 
         // DELETE: api/Liens/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> DeleteLien(int id)
         {
-            var lien = dataRepository.GetByIdAsync(id);
+            var lien = await dataRepository.GetByIdAsync(id);
 
             if (lien == null)
             {
                 return NotFound();
             }
 
-            dataRepository.DeleteAsync(lien.Result.Value);
+            await dataRepository.DeleteAsync(lien.Value);
 
             return NoContent();
         }

@@ -10,7 +10,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RouteDesVinsController : ControllerBase
     {
@@ -27,11 +27,12 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/RouteDesVins
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<RouteDesVins>>> GetRoutesDesVins()
         {
-            var routeDesVins = dataRepository.GetAllAsync().Result;
-            var liens = dataRepositoryLien.GetAllAsync().Result;
-            var liensRdv = dataRepositoryLienRouteDesVins.GetAllAsync().Result;
+            var routeDesVins = await dataRepository.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
+            await dataRepositoryLienRouteDesVins.GetAllAsync();
 
             if (routeDesVins == null)
             {
@@ -42,11 +43,13 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/RouteDesVins/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<RouteDesVins>> GetRouteDesVins(int id)
         {
-            var vignoble = dataRepository.GetByIdAsync(id).Result;
-            var lien = dataRepositoryLien.GetAllAsync().Result;
-            var liensRdv = dataRepositoryLienRouteDesVins.GetAllAsync().Result;
+            var vignoble = await dataRepository.GetByIdAsync(id);
+            await dataRepositoryLien.GetAllAsync();
+            await dataRepositoryLienRouteDesVins.GetAllAsync();
 
             if (vignoble == null)
             {
@@ -56,6 +59,6 @@ namespace WS_VINOTRIP.Controllers
             return vignoble;
         }
 
-       
+
     }
 }

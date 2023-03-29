@@ -47,8 +47,7 @@ namespace WS_VINOTRIP.Controllers
         }
 
         // GET: api/Sejours/5
-        [HttpGet]
-        [Route("[action]/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<Sejour>> GetSejourById(int id)
@@ -97,8 +96,7 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Sejours/5
         [HttpGet]
-        [Route("[action]/{id}")]
-        [ActionName("GetByRoute")]
+        [Route("[action]/{route}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<IEnumerable<Sejour>>> GetSejoursByRouteDesVins(int id)
