@@ -29,7 +29,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<Panier>>> GetPaniers()
         {
             var paniers = await dataRepository.GetAllAsync();
-            await dataRepositorySejour.GetAllAsync();
+            //await dataRepositorySejour.GetAllAsync();
             return paniers;
         }
 

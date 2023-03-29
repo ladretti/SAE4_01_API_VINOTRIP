@@ -42,7 +42,7 @@ builder.Services.AddScoped<IDataRepository<LienElementVignoble>, LienElementVign
 builder.Services.AddScoped<IDataRepository<Personne>, PersonneManager>();
 builder.Services.AddScoped<IDataRepository<Concerne>, ConcerneManager>();
 builder.Services.AddScoped<IDataRepository<ElementEtape>, ElementEtapeManager>();
-builder.Services.AddScoped<IDataRepository<Panier>, PanierManager>();
+builder.Services.AddScoped<IDataRepositoryPanier<Panier>, PanierManager>();
 builder.Services.AddScoped<IDataRepository<LienEtape>, LienEtapeManager>();
 builder.Services.AddScoped<IDataRepository<Contient>, ContientManager>();
 
