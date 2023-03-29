@@ -30,13 +30,14 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Sejours
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Sejour>>> GetSejours()
         {
             var catparticipant = dataRepositoryComporte.GetAllAsync().Result;
             var liensejour = dataRepositoryLienSejour.GetAllAsync().Result;
             var lien = dataRepositoryLien.GetAllAsync().Result;
 
-            var sejours = dataRepository.GetAllAsync().Result;
+            var sejours = await dataRepository.GetAllAsync();
 
             if (sejours == null)
             {
@@ -48,13 +49,14 @@ namespace WS_VINOTRIP.Controllers
         // GET: api/Sejours/5
         [HttpGet]
         [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Sejour>> GetSejourById(int id)
         {
-            var sejour = dataRepository.GetByIdAsync(id).Result;
-            var catparticipant = dataRepositoryComporte.GetAllAsync().Result;
-            var liensejour = dataRepositoryLienSejour.GetAllAsync().Result;
-            var lien = dataRepositoryLien.GetAllAsync().Result;
+            var sejour = await dataRepository.GetByIdAsync(id);
+            var catparticipant = await dataRepositoryComporte.GetAllAsync();
+            var liensejour = await dataRepositoryLienSejour.GetAllAsync();
+            var lien = await dataRepositoryLien.GetAllAsync();
 
             if (sejour == null)
             {
@@ -64,7 +66,7 @@ namespace WS_VINOTRIP.Controllers
             return sejour;
         }
 
-        //idcatvignoble idcatsejour, idcatparticipant
+        /*//idcatvignoble idcatsejour, idcatparticipant
         [HttpGet]
         [Route("[action]/{catsejour}/{catvignoble}/{catparticipant}")]
         [ActionName("GetWithFilter")]
@@ -91,12 +93,14 @@ namespace WS_VINOTRIP.Controllers
             }
 
             return filterList;
-        }
+        }*/
 
         // GET: api/Sejours/5
         [HttpGet]
         [Route("[action]/{id}")]
         [ActionName("GetByRoute")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<IEnumerable<Sejour>>> GetSejoursByRouteDesVins(int id)
         {
             var catparticipant = dataRepositoryComporte.GetAllAsync().Result;
@@ -121,6 +125,8 @@ namespace WS_VINOTRIP.Controllers
         // PUT: api/Sejours/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> PutSejour(int id, Sejour sejour)
         {
             if (id != sejour.SejourId)
@@ -128,7 +134,7 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest();
             }
 
-            var sejourToUpdate = dataRepository.GetByIdAsync(id);
+            var sejourToUpdate = await dataRepository.GetByIdAsync(id);
 
             if (sejourToUpdate == null)
             {
@@ -137,7 +143,7 @@ namespace WS_VINOTRIP.Controllers
 
             else
             {
-                dataRepository.UpdateAsync(sejourToUpdate.Result.Value, sejour);
+                await dataRepository.UpdateAsync(sejourToUpdate.Value, sejour);
                 return NoContent();
             }
         }
@@ -145,6 +151,8 @@ namespace WS_VINOTRIP.Controllers
         // POST: api/Sejours
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<Sejour>> PostSejour(Sejour sejour)
         {
             if (!ModelState.IsValid)
@@ -152,23 +160,25 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest(ModelState);
             }
 
-            dataRepository.AddAsync(sejour);
+            await dataRepository.AddAsync(sejour);
 
-            return CreatedAtAction("GetById", new { id = sejour.SejourId }, sejour); // GetById : nom de l’action
+            return CreatedAtAction("GetSejourById", new { id = sejour.SejourId }, sejour); // GetById : nom de l’action
         }
 
         // DELETE: api/Sejours/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> DeleteSejour(int id)
         {
-            var sejour = dataRepository.GetByIdAsync(id);
+            var sejour = await dataRepository.GetByIdAsync(id);
 
             if (sejour == null)
             {
                 return NotFound();
             }
 
-            dataRepository.DeleteAsync(sejour.Result.Value);
+            await dataRepository.DeleteAsync(sejour.Value);
 
             return NoContent();
         }

@@ -52,6 +52,21 @@ namespace WS_VINOTRIP.Controllers
             return personne;
         }
 
+        [HttpGet("{mail}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Personne>> GetPersonneByMail(string mail)
+        {
+            var personne = await dataRepository.GetByStringAsync(mail);
+
+            if (personne == null)
+            {
+                return NotFound();
+            }
+
+            return personne;
+        }
+
         [HttpGet]
         [ActionName("GetMaxPersonneId")]
         public async Task<ActionResult<int>> GetMaxPersonneId()

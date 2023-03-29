@@ -24,18 +24,20 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Avis
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Avis>>> GetAvis()
         {
-            return dataRepository.GetAllAsync().Result;
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Avis/5
         [HttpGet]
         [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Avis>> GetAvisById(int id)
         {
-            var avis =  dataRepository.GetByIdAsync(id).Result;
+            var avis =  await dataRepository.GetByIdAsync(id);
 
             if (avis == null)
             {
@@ -48,6 +50,8 @@ namespace WS_VINOTRIP.Controllers
         // POST: api/Avis
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Avis>> PostAvis(Avis avis)
         {
             if (!ModelState.IsValid)
@@ -55,9 +59,9 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest(ModelState);
             }
 
-            dataRepository.AddAsync(avis);
+            await dataRepository.AddAsync(avis);
 
-            return CreatedAtAction("GetById", new { id = avis.SejourId }, avis); // GetById : nom de l’action
+            return CreatedAtAction("GetAvisById", new { id = avis.SejourId }, avis); // GetById : nom de l’action
         }
 
         // DELETE: api/Avis/5

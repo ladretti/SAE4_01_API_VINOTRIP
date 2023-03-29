@@ -54,19 +54,33 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        [ActionName("GetUserById")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
-            var sejour = await dataRepository.GetByIdAsync(id);
+            var user = await dataRepository.GetByIdAsync(id);
 
-            if (sejour == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return sejour;
+            return user;
+        }
+        // GET: api/Users/5
+        [HttpGet("{pseudo}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<User>> GetUserByPseudo(string pseudo)
+        {
+            var user = await dataRepository.GetByStringAsync(pseudo);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
         }
 
         // PUT: api/Users/5
