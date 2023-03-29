@@ -10,7 +10,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CatVignoblesController : ControllerBase
     {
@@ -23,14 +23,12 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/CatVignobles
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CatVignoble>>> GetCatsVignoble()
         {
-            var response = HttpContext.Response;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
+            var catsVignoble = await dataRepository.GetAllAsync();
 
-            var catsVignoble =  dataRepository.GetAllAsync().Result;
-
-            if (catsVignoble== null)
+            if (catsVignoble == null)
             {
                 return NotFound();
             }
@@ -38,16 +36,12 @@ namespace WS_VINOTRIP.Controllers
         }
 
         // GET: api/CatVignobles/5
-        [HttpGet]
-        [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CatVignoble>> GetCatVignoble(int id)
         {
-
-            var response = HttpContext.Response;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
-
-            var catVignoble = dataRepository.GetByIdAsync(id).Result;
+            var catVignoble = await dataRepository.GetByIdAsync(id);
 
             if (catVignoble == null)
             {
@@ -57,7 +51,7 @@ namespace WS_VINOTRIP.Controllers
             return catVignoble;
         }
 
-        // PUT: api/CatVignobles/5
+        /*// PUT: api/CatVignobles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCatVignoble(int id, CatVignoble catVignoble)
@@ -83,6 +77,6 @@ namespace WS_VINOTRIP.Controllers
         private bool CatVignobleExists(int id)
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

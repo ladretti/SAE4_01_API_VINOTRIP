@@ -6,7 +6,7 @@ using WS_VINOTRIP.Models.Repository;
 namespace WS_VINOTRIP.Models.DataManager
 {
 
-    public class PanierManager : IDataRepository<Panier>
+    public class PanierManager : IDataRepositoryPanier<Panier>
     {
         readonly VinotripDBContext? vinotripDbContext;
         public PanierManager()
@@ -22,11 +22,6 @@ namespace WS_VINOTRIP.Models.DataManager
             return await vinotripDbContext.Paniers.ToListAsync();
         }
 
-        public async Task<ActionResult<Panier>> GetByIdIdBoolAsync(int idUser, int idSejour, bool offert )
-        {
-            return await vinotripDbContext.Paniers.FirstOrDefaultAsync(e => e.PersonneId == idUser && e.SejourId == idSejour && e.Offert == offert);
-        }
-
         public async Task<ActionResult<Panier>> GetByIdAsync(int id)
         {
             return await vinotripDbContext.Paniers.FirstOrDefaultAsync(e => e.PersonneId == id);
@@ -36,6 +31,12 @@ namespace WS_VINOTRIP.Models.DataManager
         {
             return null;
         }
+        public async Task<ActionResult<Panier>> GetByIdsAsync(int userId, int sejourId, bool offert)
+        {
+            return await vinotripDbContext.Paniers.FirstOrDefaultAsync(e => e.PersonneId == userId && e.SejourId == sejourId && e.Offert == offert);
+
+        }
+
 
         public async Task AddAsync(Panier entity)
         {

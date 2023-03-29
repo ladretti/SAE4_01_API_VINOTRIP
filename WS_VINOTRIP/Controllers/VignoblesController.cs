@@ -11,7 +11,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class VignoblesController : ControllerBase
     {
@@ -30,10 +30,11 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Vignobles
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Vignoble>>> GetVignobles()
         {
-            var vignobles = dataRepository.GetAllAsync().Result;
-            var liens = dataRepositoryLien.GetAllAsync().Result;
+            var vignobles = await dataRepository.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
 
             if (vignobles == null)
             {
@@ -44,12 +45,14 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Vignobles/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Vignoble>> GetVignobleById(int id)
         {
-            var vignoble = dataRepository.GetByIdAsync(id).Result;
-            var lien = dataRepositoryLien.GetAllAsync().Result;
-            var elementsVignobles = dataRepositoryElementVignoble.GetAllAsync().Result;
-            var lienElementsVignobles = dataRepositoryLienElementVignoble.GetAllAsync().Result;
+            var vignoble = await dataRepository.GetByIdAsync(id);
+            await dataRepositoryLien.GetAllAsync();
+            await dataRepositoryElementVignoble.GetAllAsync();
+            await dataRepositoryLienElementVignoble.GetAllAsync();
 
             if (vignoble == null)
             {

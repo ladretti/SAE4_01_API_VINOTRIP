@@ -22,9 +22,10 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Etape
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Etape>>> GetEtape()
         {
-            var etape = dataRepository.GetAllAsync().Result;
+            var etape = await dataRepository.GetAllAsync();
 
             if (etape == null)
             {
@@ -35,9 +36,10 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Concerne
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Concerne>>> GetConcerne()
         {
-            var concerne = dataRepositoryConcerne.GetAllAsync().Result;
+            var concerne = await dataRepositoryConcerne.GetAllAsync();
 
             if (concerne == null)
             {
@@ -46,28 +48,15 @@ namespace WS_VINOTRIP.Controllers
             return concerne;
         }
 
-        // GET: api/ElementEtape
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ElementEtape>>> GetElementEtape()
-        {
-            var elementEtape = dataRepositoryElementEtape.GetAllAsync().Result;
-
-            if (elementEtape == null)
-            {
-                return NotFound();
-            }
-            return elementEtape;
-        }
-
         // GET: api/Etape/5
-        [HttpGet]
-        [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Etape>> GetEtapeById(int id)
         {
-            var etape = dataRepository.GetByIdAsync(id).Result;
-            var concerne = dataRepositoryConcerne.GetAllAsync().Result;
-            var elementEtape = dataRepositoryElementEtape.GetAllAsync().Result;
+            var etape = await dataRepository.GetByIdAsync(id);
+            var concerne = await dataRepositoryConcerne.GetAllAsync();
+            var elementEtape = await dataRepositoryElementEtape.GetAllAsync();
 
             if (etape == null)
             {
@@ -77,9 +66,37 @@ namespace WS_VINOTRIP.Controllers
             return etape;
         }
 
+        // PUT: api/Etapes/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> PutEtape(int id, Etape etape)
+        {
+            if (id != etape.EtapeId)
+            {
+                return BadRequest();
+            }
+
+            var etapeToUpdate = await dataRepository.GetByIdAsync(id);
+
+            if (etapeToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                await dataRepository.UpdateAsync(etapeToUpdate.Value, etape);
+                return NoContent();
+            }
+        }
+
         // POST: api/Etape
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<Etape>> PostEtape(Etape etape)
         {
             if (!ModelState.IsValid)
@@ -87,23 +104,25 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest(ModelState);
             }
 
-            dataRepository.AddAsync(etape);
+            await dataRepository.AddAsync(etape);
 
-            return CreatedAtAction("GetById", new { id = etape.SejourId }, etape); // GetById : nom de l’action
+            return CreatedAtAction("GetEtapeById", new { id = etape.SejourId }, etape); // GetById : nom de l’action
         }
 
         // DELETE: api/Etape/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> DeleteEtape(int id)
         {
-            var etape = dataRepository.GetByIdAsync(id);
+            var etape = await dataRepository.GetByIdAsync(id);
 
             if (etape == null)
             {
                 return NotFound();
             }
 
-            dataRepository.DeleteAsync(etape.Result.Value);
+            await dataRepository.DeleteAsync(etape.Value);
 
             return NoContent();
         }

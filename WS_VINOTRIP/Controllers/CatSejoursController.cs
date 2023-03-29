@@ -10,7 +10,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CatSejoursController : ControllerBase
     {
@@ -23,12 +23,10 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/CatSejours
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CatSejour>>> GetCatsSejour()
         {
-            var response = HttpContext.Response;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
-
-            var catsSejour = dataRepository.GetAllAsync().Result;
+            var catsSejour = await dataRepository.GetAllAsync();
 
             if (catsSejour == null)
             {
@@ -38,15 +36,12 @@ namespace WS_VINOTRIP.Controllers
         }
 
         // GET: api/CatSejours/5
-        [HttpGet]
-        [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CatSejour>> GetCatSejour(int id)
         {
-            var response = HttpContext.Response;
-            response.Headers.Add("Access-Control-Allow-Origin", "*");
-
-            var catSejour = dataRepository.GetByIdAsync(id).Result;
+            var catSejour = await dataRepository.GetByIdAsync(id);
 
             if (catSejour == null)
             {
@@ -56,7 +51,7 @@ namespace WS_VINOTRIP.Controllers
             return catSejour;
         }
 
-        // PUT: api/CatSejours/5
+        /*// PUT: api/CatSejours/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCatSejour(int id, CatSejour catSejour)
@@ -82,6 +77,6 @@ namespace WS_VINOTRIP.Controllers
         private bool CatSejourExists(int id)
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

@@ -10,7 +10,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CatParticipantsController : ControllerBase
     {
@@ -23,10 +23,11 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/CatParticipants
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CatParticipant>>> GetCatsParticipant()
         {
 
-            var catsParticipant = dataRepository.GetAllAsync().Result;
+            var catsParticipant = await dataRepository.GetAllAsync();
 
             if (catsParticipant == null)
             {
@@ -36,14 +37,12 @@ namespace WS_VINOTRIP.Controllers
         }
 
         // GET: api/CatParticipants/5
-        [HttpGet]
-        [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CatParticipant>> GetCatParticipant(int id)
         {
-
-
-            var catParticipant = dataRepository.GetByIdAsync(id).Result;
+            var catParticipant = await dataRepository.GetByIdAsync(id);
 
             if (catParticipant == null)
             {
@@ -52,16 +51,7 @@ namespace WS_VINOTRIP.Controllers
 
             return catParticipant;
         }
-
-        // PUT: api/CatParticipants/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCatParticipant(int id, CatParticipant catParticipant)
-        {
-            throw new NotImplementedException();
-        }
-
-        // POST: api/CatParticipants
+        /*// POST: api/CatParticipants
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<CatParticipant>> PostCatParticipant(CatParticipant catParticipant)
@@ -79,6 +69,6 @@ namespace WS_VINOTRIP.Controllers
         private bool CatParticipantExists(int id)
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }

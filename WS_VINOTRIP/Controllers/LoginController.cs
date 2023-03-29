@@ -10,23 +10,12 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _config;
-
-        private List<User1> appUsers1 = new List<User1>
-        {
-            new User1 { FullName = "Vincent COUTURIER", UserName = "vince", Password = "1234", UserRole = "Admin" },
-            new User1 { FullName = "Marc MACHIN", UserName = "marc", Password = "1234", UserRole = "User" }
-        };
-        private List<User> appUsers = new List<User>
-        {
-            new User { Pseudo = "Connard",Prenom="Irwin",Role="Admin",Mdp="1234"},
-            new User { Pseudo = "TG",Prenom="JOSIANNE",Role="User",Mdp="1234"}
-
-        };
+        readonly VinotripDBContext? vinotripDbContext;
 
         public LoginController(IConfiguration config)
         {
@@ -54,7 +43,7 @@ namespace WS_VINOTRIP.Controllers
 
         private User AuthenticateUser(User user)
         {
-            return appUsers.SingleOrDefault(x => x.Pseudo.ToUpper() == user.Pseudo.ToUpper() && x.Mdp == user.Mdp);
+            return vinotripDbContext.Users.SingleOrDefault(x => x.Pseudo.ToUpper() == user.Pseudo.ToUpper() && x.Mdp == user.Mdp);
         }
 
 
@@ -65,7 +54,7 @@ namespace WS_VINOTRIP.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.Pseudo),
-                new Claim("tel", userInfo.Pseudo.ToString()),
+                new Claim("pseudo", userInfo.Pseudo.ToString()),
                 new Claim("role",userInfo.Role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

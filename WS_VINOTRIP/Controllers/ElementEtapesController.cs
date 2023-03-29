@@ -21,19 +21,21 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-
         // GET: api/ElementEtape
-       [HttpGet]
+        [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<ElementEtape>>> GetElementEtape()
         {
-            return dataRepository.GetAllAsync().Result;
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/ElementEtape/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<ElementEtape>> GetElementEtapeById(int id)
         {
-            var elementEtape = dataRepository.GetByIdAsync(id).Result;
+            var elementEtape = await dataRepository.GetByIdAsync(id);
 
             if (elementEtape == null)
             {
@@ -43,9 +45,37 @@ namespace WS_VINOTRIP.Controllers
             return elementEtape;
         }
 
+        // PUT: api/ElementEtape/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> PutElementEtape(int id, ElementEtape elementEtape)
+        {
+            if (id != elementEtape.PersonneId)
+            {
+                return BadRequest();
+            }
+
+            var elementEtapeToUpdate = await dataRepository.GetByIdAsync(id);
+
+            if (elementEtapeToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                await dataRepository.UpdateAsync(elementEtapeToUpdate.Value, elementEtape);
+                return NoContent();
+            }
+        }
+
         // POST: api/ElementEtape
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<ElementEtape>> PostElementEtape(ElementEtape elementEtape)
         {
             if (!ModelState.IsValid)
@@ -53,23 +83,25 @@ namespace WS_VINOTRIP.Controllers
                 return BadRequest(ModelState);
             }
 
-            dataRepository.AddAsync(elementEtape);
+            await dataRepository.AddAsync(elementEtape);
 
             return CreatedAtAction("GetById", new { id = elementEtape.ElementId }, elementEtape); // GetById : nom de l’action
         }
 
         // DELETE: api/ElementEtape/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> DeleteElementEtape(int id)
         {
-            var elementEtape = dataRepository.GetByIdAsync(id);
+            var elementEtape = await dataRepository.GetByIdAsync(id);
 
             if (elementEtape == null)
             {
                 return NotFound();
             }
 
-            dataRepository.DeleteAsync(elementEtape.Result.Value);
+            await dataRepository.DeleteAsync(elementEtape.Value);
 
             return NoContent();
         }
