@@ -17,9 +17,10 @@ namespace WS_VINOTRIP.Controllers
         private readonly IConfiguration _config;
         readonly VinotripDBContext? vinotripDbContext;
 
-        public LoginController(IConfiguration config)
+        public LoginController(IConfiguration config, VinotripDBContext context)
         {
             _config = config;
+            vinotripDbContext = context;
         }
 
         [HttpPost]
@@ -41,7 +42,7 @@ namespace WS_VINOTRIP.Controllers
         }
 
 
-        private User AuthenticateUser(User user)
+        private User AuthenticateUser(User user) 
         {
             return vinotripDbContext.Users.SingleOrDefault(x => x.Pseudo.ToUpper() == user.Pseudo.ToUpper() && x.Mdp == user.Mdp);
         }
