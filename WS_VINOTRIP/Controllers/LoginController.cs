@@ -15,12 +15,12 @@ namespace WS_VINOTRIP.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _config;
-        readonly VinotripDBContext? vinotripDbContext;
+        private readonly IDataRepository<User> dataRepository;
 
-        public LoginController(IConfiguration config, VinotripDBContext context)
+        public LoginController(IConfiguration config, IDataRepository<User> dataRepo)
         {
             _config = config;
-            vinotripDbContext = context;
+            dataRepository = dataRepo;
         }
 
         [HttpPost]
@@ -42,9 +42,10 @@ namespace WS_VINOTRIP.Controllers
         }
 
 
-        private User AuthenticateUser(User user) 
+        private User AuthenticateUser(User user)
         {
-            return vinotripDbContext.Users.SingleOrDefault(x => x.Pseudo.ToUpper() == user.Pseudo.ToUpper() && x.Mdp == user.Mdp);
+            var listUsers = dataRepository.GetAllAsync().Result;
+            return listUsers.Value.FirstOrDefault(x => x.Pseudo.ToUpper() == user.Pseudo.ToUpper() && x.Mdp == user.Mdp);
         }
 
 
