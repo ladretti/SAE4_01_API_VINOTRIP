@@ -39,7 +39,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<CatVignoble>> GetCatVignoble(int id)
+        public async Task<ActionResult<CatVignoble>> GetCatVignobleById(int id)
         {
             var catVignoble = await dataRepository.GetByIdAsync(id);
 

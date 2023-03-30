@@ -26,7 +26,7 @@ builder.Services.AddDbContext<VinotripDBContext>(options => options.UseNpgsql(bu
 
 builder.Services.AddScoped<IDataRepository<Sejour>, SejourManager>();
 builder.Services.AddScoped<IDataRepository<Comporte>, ComporteManager>();
-builder.Services.AddScoped<IDataRepository<Avis>, AvisManager>();
+builder.Services.AddScoped<IDataRepositoryAvis<Avis>, AvisManager>();
 builder.Services.AddScoped<IDataRepository<RouteDesVins>, RouteDesVinsManager>();
 builder.Services.AddScoped<IDataRepository<User>, UserManager>();
 builder.Services.AddScoped<IDataRepository<Vignoble>, VignobleManager>();
@@ -36,7 +36,7 @@ builder.Services.AddScoped<IDataRepository<CatSejour>, CatSejourManager>();
 builder.Services.AddScoped<IDataRepository<Lien>, LienManager>();
 builder.Services.AddScoped<IDataRepository<LienSejour>, LienSejourManager>();
 builder.Services.AddScoped<IDataRepository<LienRouteDesVins>, LienRouteDesVinsManager>();
-builder.Services.AddScoped<IDataRepository<Etape>, EtapeManager>();
+builder.Services.AddScoped<IDataRepositoryEtape<Etape>, EtapeManager>();
 builder.Services.AddScoped<IDataRepository<ElementVignoble>, ElementVignobleManager>();
 builder.Services.AddScoped<IDataRepository<LienElementVignoble>, LienElementVignobleManager>();
 builder.Services.AddScoped<IDataRepository<Personne>, PersonneManager>();

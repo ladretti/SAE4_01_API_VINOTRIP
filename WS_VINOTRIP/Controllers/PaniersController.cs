@@ -39,21 +39,14 @@ namespace WS_VINOTRIP.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<IEnumerable<Panier>>> GetPanierByUserId(int id)
         {
-            var panier = dataRepository.GetAllAsync().Result.Value.Where(e => e.PersonneId == id);
-            var sejour = dataRepository.GetAllAsync().Result;
-            List<Panier> panierList = new List<Panier>();
-
-            foreach (var e in panier)
-            {
-                panierList.Add(e);
-            }
+            var panier = await dataRepository.GetByUserIdAsync(id);
 
             if (panier == null)
             {
                 return NotFound();
             }
 
-            return panierList;
+            return panier;
         }
         // GET: api/Users/5
         [HttpGet("{id}")]

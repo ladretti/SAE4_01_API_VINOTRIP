@@ -14,20 +14,11 @@ namespace WS_VINOTRIP.Controllers
     [ApiController]
     public class AvisController : ControllerBase
     {
-        private readonly IDataRepository<Avis> dataRepository;
+        private readonly IDataRepositoryAvis<Avis> dataRepository;
 
-        public AvisController(IDataRepository<Avis> dataRepo)
+        public AvisController(IDataRepositoryAvis<Avis> dataRepo)
         {
             dataRepository = dataRepo;
-        }
-
-
-        // GET: api/Avis
-        [HttpGet]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<Avis>>> GetAvis()
-        {
-            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Avis/5
@@ -37,6 +28,21 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<Avis>> GetAvisById(int id)
         {
             var avis =  await dataRepository.GetByIdAsync(id);
+
+            if (avis == null)
+            {
+                return NotFound();
+            }
+
+            return avis;
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<IEnumerable<Avis>>> GetAvisBySejourId(int id)
+        {
+            var avis =  await dataRepository.GetBySejourIdAsync(id);
 
             if (avis == null)
             {

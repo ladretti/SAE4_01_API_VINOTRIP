@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace WS_VINOTRIP.Controllers.Tests
 {
     [TestClass()]
-    public class UsersControllerTests
+    public class LoginControllerTests
     {
-       
+        
     }
 }

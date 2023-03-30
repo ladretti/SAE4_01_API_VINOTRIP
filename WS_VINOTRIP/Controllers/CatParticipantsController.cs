@@ -40,7 +40,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<CatParticipant>> GetCatParticipant(int id)
+        public async Task<ActionResult<CatParticipant>> GetCatParticipantById(int id)
         {
             var catParticipant = await dataRepository.GetByIdAsync(id);
 
@@ -51,24 +51,6 @@ namespace WS_VINOTRIP.Controllers
 
             return catParticipant;
         }
-        /*// POST: api/CatParticipants
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<CatParticipant>> PostCatParticipant(CatParticipant catParticipant)
-        {
-            throw new NotImplementedException();
-        }
-
-        // DELETE: api/CatParticipants/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCatParticipant(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool CatParticipantExists(int id)
-        {
-            throw new NotImplementedException();
-        }*/
+        
     }
 }

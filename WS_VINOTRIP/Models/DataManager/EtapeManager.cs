@@ -5,7 +5,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Models.DataManager
 {
-    public class EtapeManager : IDataRepository<Etape>
+    public class EtapeManager : IDataRepositoryEtape<Etape>
     {
         readonly VinotripDBContext? vinotripDbContext;
         public EtapeManager()
@@ -25,6 +25,21 @@ namespace WS_VINOTRIP.Models.DataManager
         {
             return await vinotripDbContext.Etapes.FirstOrDefaultAsync(e => e.EtapeId == id);
         }
+        
+        public async Task<ActionResult<IEnumerable<Etape>>> GetBySejourIdAsync(int id)
+        {
+            var etapes = vinotripDbContext.Etapes.Where(e => e.SejourId == id);
+
+            List<Etape> listEtapes = new List<Etape>();
+
+            foreach (Etape e in etapes)
+            {
+                listEtapes.Add(e);
+            }
+
+            return listEtapes;
+        }
+        
 
         public async Task AddAsync(Etape entity)
         {
@@ -46,5 +61,7 @@ namespace WS_VINOTRIP.Models.DataManager
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
