@@ -48,8 +48,9 @@ namespace WS_VINOTRIP.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> PutElementEtape(int id, ElementEtape elementEtape)
         {
-            if (id != elementEtape.PersonneId)
+            if (id != elementEtape.ElementId)
             {
+                
                 return BadRequest();
             }
 
@@ -59,7 +60,7 @@ namespace WS_VINOTRIP.Controllers
             {
                 return NotFound();
             }
-
+            
             else
             {
                 await dataRepository.UpdateAsync(elementEtapeToUpdate.Value, elementEtape);
