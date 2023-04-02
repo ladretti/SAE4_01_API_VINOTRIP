@@ -14,12 +14,12 @@ namespace WS_VINOTRIP.Controllers
     [ApiController]
     public class SejoursController : ControllerBase
     {
-        private readonly IDataRepository<Sejour> dataRepository;
+        private readonly IDataRepositorySejour<Sejour> dataRepository;
         private readonly IDataRepository<Comporte> dataRepositoryComporte;
         private readonly IDataRepository<Lien> dataRepositoryLien;
         private readonly IDataRepository<LienSejour> dataRepositoryLienSejour;
         /*private readonly IDataRepository<CatParticipant> dataRepository3;*/
-        public SejoursController(IDataRepository<Sejour> dataRepo, IDataRepository<Comporte> dataRepoComporte, IDataRepository<LienSejour> dataRepoLienSejour, IDataRepository<Lien> dataRepoLien)
+        public SejoursController(IDataRepositorySejour<Sejour> dataRepo, IDataRepository<Comporte> dataRepoComporte, IDataRepository<LienSejour> dataRepoLienSejour, IDataRepository<Lien> dataRepoLien)
         {
             dataRepository = dataRepo;
             dataRepositoryComporte = dataRepoComporte;
@@ -96,7 +96,7 @@ namespace WS_VINOTRIP.Controllers
 
         // GET: api/Sejours/5
         [HttpGet]
-        [Route("[action]/{route}")]
+        [Route("[action]/{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<IEnumerable<Sejour>>> GetSejoursByRouteDesVins(int id)
@@ -105,19 +105,15 @@ namespace WS_VINOTRIP.Controllers
             var liensejour = dataRepositoryLienSejour.GetAllAsync().Result;
             var lien = dataRepositoryLien.GetAllAsync().Result;
 
-            var sejours = dataRepository.GetAllAsync().Result.Value.Where(e => e.RouteVinId == id);
-            List<Sejour> sejoursRdvList = new List<Sejour>();
-            foreach(var item in sejours)
-            {
-                sejoursRdvList.Add(item);
-            }
+            var sejours = await dataRepository.GetByRouteDesVinsIdAsync(id);
+           
 
 
             if (sejours == null)
             {
                 return NotFound();
             }
-            return sejoursRdvList;
+            return sejours;
         }
 
         // PUT: api/Sejours/5

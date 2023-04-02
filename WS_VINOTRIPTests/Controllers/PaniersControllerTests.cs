@@ -181,10 +181,10 @@ namespace WS_VINOTRIP.Controllers.Tests
             var mockRepository = new Mock<IDataRepositoryPanier<Panier>>();
             var mockRepository1 = new Mock<IDataRepository<Sejour>>();
             mockRepository.Setup(x => x.GetByIdsAsync(126, 2, false).Result).Returns(panier);
-            var userController = new PaniersController(mockRepository.Object, mockRepository1.Object);
+            var panierController = new PaniersController(mockRepository.Object, mockRepository1.Object);
 
             // Act
-            var actionResult = userController.DeletePanier(126, 2, false).Result;
+            var actionResult = panierController.DeletePanier(126, 2, false).Result;
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour

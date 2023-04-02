@@ -3,8 +3,8 @@ using WS_VINOTRIP.Models.EntityFramework;
 
 namespace WS_VINOTRIP.Models.Repository
 {
-    public interface IDataRepositoryAvis<TEntity> : IDataRepository<TEntity>
+    public interface IDataRepositorySejour<TEntity> : IDataRepository<TEntity>
     {
-        public Task<ActionResult<IEnumerable<TEntity>>> GetBySejourIdAsync(int id);
+        public Task<ActionResult<IEnumerable<TEntity>>> GetByRouteDesVinsIdAsync(int id);
     }
 }

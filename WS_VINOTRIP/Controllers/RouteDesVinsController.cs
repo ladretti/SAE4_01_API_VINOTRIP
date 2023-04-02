@@ -45,7 +45,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<RouteDesVins>> GetRouteDesVins(int id)
+        public async Task<ActionResult<RouteDesVins>> GetRouteDesVinsById(int id)
         {
             var vignoble = await dataRepository.GetByIdAsync(id);
             await dataRepositoryLien.GetAllAsync();

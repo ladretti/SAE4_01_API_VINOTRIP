@@ -24,7 +24,7 @@ builder.Services.AddRazorPages();
   options.UseNpgsql(builder.Configuration.GetConnectionString("SeriesDbContext")));*/
 builder.Services.AddDbContext<VinotripDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("VinotripDbContextRemote")));
 
-builder.Services.AddScoped<IDataRepository<Sejour>, SejourManager>();
+builder.Services.AddScoped<IDataRepositorySejour<Sejour>, SejourManager>();
 builder.Services.AddScoped<IDataRepository<Comporte>, ComporteManager>();
 builder.Services.AddScoped<IDataRepositoryAvis<Avis>, AvisManager>();
 builder.Services.AddScoped<IDataRepository<RouteDesVins>, RouteDesVinsManager>();

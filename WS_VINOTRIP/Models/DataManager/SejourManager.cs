@@ -5,7 +5,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Models.DataManager
 {
-    public class SejourManager : IDataRepository<Sejour>
+    public class SejourManager : IDataRepositorySejour<Sejour>
     {
         readonly VinotripDBContext? vinotripDbContext;
         public SejourManager() 
@@ -61,6 +61,18 @@ namespace WS_VINOTRIP.Models.DataManager
         {
             vinotripDbContext.Sejours.Remove(sejour);
             await vinotripDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Sejour>>> GetByRouteDesVinsIdAsync(int id)
+        {
+            var sejours = vinotripDbContext.Sejours.Where(e => e.RouteVinId == id);
+            List<Sejour> sejoursRdvList = new List<Sejour>();
+            foreach (var item in sejours)
+            {
+                sejoursRdvList.Add(item);
+            }
+          
+            return sejoursRdvList;
         }
     }
 }
