@@ -74,6 +74,17 @@ namespace WS_VINOTRIP.Controllers.Tests
             Assert.IsNotNull(actionResult.Value);
             Assert.AreEqual(personne, actionResult.Value as Personne);
         }
+        [TestMethod]
+        public void GetPersonneById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
+        {
+            var mockRepository = new Mock<IDataRepository<Personne>>();
+            var panierController = new PersonnesController(mockRepository.Object);
+            // Act
+            var actionResult = panierController.GetPersonneById(0).Result;
+            // Assert
+            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
+
+        }
         //public async Task<ActionResult<Personne>> GetPersonneByMail(string mail)
         [TestMethod()]
         public async Task GetPersonneByMailTestAsync()
@@ -110,6 +121,18 @@ namespace WS_VINOTRIP.Controllers.Tests
             Assert.IsNotNull(actionResult.Value);
             Assert.AreEqual(personne, actionResult.Value as Personne);
         }
+        [TestMethod]
+        public void GetPersonneByMail_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
+        {
+            var mockRepository = new Mock<IDataRepository<Personne>>();
+            var panierController = new PersonnesController(mockRepository.Object);
+            // Act
+            var actionResult = panierController.GetPersonneByMail("e@e.eeeeee").Result;
+            // Assert
+            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
+
+        }
+
         //public async Task<IActionResult> PutPersonne(int id, Personne personne)
         [TestMethod]
         public void PutPersonneTest_AvecMoq()
