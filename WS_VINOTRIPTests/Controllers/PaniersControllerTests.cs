@@ -20,7 +20,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         private readonly VinotripDBContext _context;
         private readonly PaniersController _controller;
         private readonly IDataRepositoryPanier<Panier> _dataRepository;
-        private readonly IDataRepository<Sejour> _dataRepositorySejour;
+        private readonly IDataRepositorySejour<Sejour> _dataRepositorySejour;
 
         public PaniersControllerTests()
         {
@@ -72,7 +72,7 @@ namespace WS_VINOTRIP.Controllers.Tests
 
             List<Panier> listPanier = new List<Panier> { panier, panier2 };
             var mockRepository = new Mock<IDataRepositoryPanier<Panier>>();
-            var mockRepository1 = new Mock<IDataRepository<Sejour>>();
+            var mockRepository1 = new Mock<IDataRepositorySejour<Sejour>>();
             mockRepository.Setup(x => x.GetByUserIdAsync(130).Result).Returns(listPanier);
             var panierController = new PaniersController(mockRepository.Object, mockRepository1.Object);
             // Act
@@ -87,7 +87,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         public void GetPanierByUserId_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
             var mockRepository = new Mock<IDataRepositoryPanier<Panier>>();
-            var mockRepository1 = new Mock<IDataRepository<Sejour>>();
+            var mockRepository1 = new Mock<IDataRepositorySejour<Sejour>>();
 
 
             var panierController = new PaniersController(mockRepository.Object, mockRepository1.Object);
@@ -122,7 +122,7 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
             // Act
             var mockRepository = new Mock<IDataRepositoryPanier<Panier>>();
-            var mockRepository1 = new Mock<IDataRepository<Sejour>>();
+            var mockRepository1 = new Mock<IDataRepositorySejour<Sejour>>();
             mockRepository.Setup(x => x.GetByIdsAsync(130, 1, false).Result).Returns(panier);
             var panierController = new PaniersController(mockRepository.Object, mockRepository1.Object);
 
@@ -138,7 +138,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         {
             // Arrange
             var mockRepository = new Mock<IDataRepositoryPanier<Panier>>();
-            var mockRepository1 = new Mock<IDataRepository<Sejour>>();
+            var mockRepository1 = new Mock<IDataRepositorySejour<Sejour>>();
             var panierController = new PaniersController(mockRepository.Object, mockRepository1.Object);
 
             Panier Panier = new Panier
@@ -179,7 +179,7 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryPanier<Panier>>();
-            var mockRepository1 = new Mock<IDataRepository<Sejour>>();
+            var mockRepository1 = new Mock<IDataRepositorySejour<Sejour>>();
             mockRepository.Setup(x => x.GetByIdsAsync(126, 2, false).Result).Returns(panier);
             var panierController = new PaniersController(mockRepository.Object, mockRepository1.Object);
 

@@ -25,7 +25,7 @@ namespace WS_VINOTRIP.Controllers.Tests
 
         private readonly VinotripDBContext _context;
         private readonly ElementEtapeController _controller;
-        private readonly IDataRepository<ElementEtape> _dataRepository;
+        private readonly IDataRepositoryElementEtape<ElementEtape> _dataRepository;
         private readonly IDataRepository<Contient> _dataRepositoryContient;
         private readonly IDataRepository<Lien> _dataRepositoryLien;
 
@@ -34,6 +34,8 @@ namespace WS_VINOTRIP.Controllers.Tests
             var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmsDBOff; uid=postgres;\npassword=postgres;"); // Chaine de connexion à mettre dans les ( )
             _context = new VinotripDBContext(builder.Options);
             _dataRepository = new ElementEtapeManager(_context);
+            _dataRepositoryContient = new ContientManager(_context);
+            _dataRepositoryLien = new LienManager(_context);
             _controller = new ElementEtapeController(_dataRepository, _dataRepositoryContient, _dataRepositoryLien);
         }
 
@@ -57,9 +59,9 @@ namespace WS_VINOTRIP.Controllers.Tests
             // Arrange
             ElementEtape elementEtape = new ElementEtape
             {
-                
+
             };
-            var mockRepository = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository1 = new Mock<IDataRepository<Contient>>();
             var mockRepository2 = new Mock<IDataRepository<Lien>>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(elementEtape);
@@ -75,7 +77,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         [TestMethod]
         public void GetElementEtapeById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository1 = new Mock<IDataRepository<Contient>>();
             var mockRepository2 = new Mock<IDataRepository<Lien>>();
             var ElementEtapeController = new ElementEtapeController(mockRepository.Object, mockRepository1.Object, mockRepository2.Object);
@@ -106,7 +108,7 @@ namespace WS_VINOTRIP.Controllers.Tests
                 Description = "HMMMMMMMMMM"
             };
             // Act
-            var mockRepository = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository1 = new Mock<IDataRepository<Contient>>();
             var mockRepository2 = new Mock<IDataRepository<Lien>>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(elementEtape);
@@ -124,18 +126,18 @@ namespace WS_VINOTRIP.Controllers.Tests
         public void PostElementEtape_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository1 = new Mock<IDataRepository<Contient>>();
             var mockRepository2 = new Mock<IDataRepository<Lien>>();
             var ElementEtapeController = new ElementEtapeController(mockRepository.Object, mockRepository1.Object, mockRepository2.Object);
 
             ElementEtape elementEtape = new ElementEtape
             {
-                ElementId= 1,
-                PersonneId= 46,
-                TypeElementId= 2,
-                Libelle= "Visite des caves, du musée et de la tour du Domaine de Castellane",
-                Description= "Le Champagne De Castellane est une maison de négoce créée en 1895 par le Vicomte Florens de Castellane. Depuis plus d'un siècle, De Castellane assemble des vins jeunes, frais et légers avec des vins de réserve plus amples, ...",
+                ElementId = 1,
+                PersonneId = 46,
+                TypeElementId = 2,
+                Libelle = "Visite des caves, du musée et de la tour du Domaine de Castellane",
+                Description = "Le Champagne De Castellane est une maison de négoce créée en 1895 par le Vicomte Florens de Castellane. Depuis plus d'un siècle, De Castellane assemble des vins jeunes, frais et légers avec des vins de réserve plus amples, ...",
             };
 
             // Act
@@ -163,7 +165,7 @@ namespace WS_VINOTRIP.Controllers.Tests
                 Description = "Le Champagne De Castellane est une maison de négoce créée en 1895 par le Vicomte Florens de Castellane. Depuis plus d'un siècle, De Castellane assemble des vins jeunes, frais et légers avec des vins de réserve plus amples, ...",
             };
 
-            var mockRepository = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository1 = new Mock<IDataRepository<Contient>>();
             var mockRepository2 = new Mock<IDataRepository<Lien>>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(elementEtape);
