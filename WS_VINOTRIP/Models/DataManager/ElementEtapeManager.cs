@@ -49,15 +49,16 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<ElementEtape>>> GetByEtapeIdAsync(int etapeId)
         {
-            var concernes = vinotripDbContext.Concernes.Where(e => e.EtapeId == etapeId);
+            var concernes =  vinotripDbContext.Concernes.Where(e => e.EtapeId == etapeId).ToList();
+
             List<ElementEtape> listElementEtapes = new List<ElementEtape>();
 
             foreach (Concerne c in concernes)
             {
-                listElementEtapes.Add(GetByIdAsync(c.ElementId).Result.Value);
+                listElementEtapes.Add(GetByIdAsync(c.EtapeId).Result.Value);
             }
-
             return listElementEtapes;
+
         }
     }
 }

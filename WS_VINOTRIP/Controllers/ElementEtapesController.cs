@@ -47,6 +47,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<ElementEtape>>> GetByEtapeId(int id)
         {
             var elementEtape = await dataRepository.GetByEtapeIdAsync(id);
+           
 
             if (elementEtape == null)
             {
