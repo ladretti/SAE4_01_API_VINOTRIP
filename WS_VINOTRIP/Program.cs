@@ -10,7 +10,7 @@ using WS_VINOTRIP.Models.EntityFramework;
 using WS_VINOTRIP.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-var builder = WebApplication.CreateBuilder(args); 
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -41,7 +41,7 @@ builder.Services.AddScoped<IDataRepository<ElementVignoble>, ElementVignobleMana
 builder.Services.AddScoped<IDataRepository<LienElementVignoble>, LienElementVignobleManager>();
 builder.Services.AddScoped<IDataRepository<Personne>, PersonneManager>();
 builder.Services.AddScoped<IDataRepository<Concerne>, ConcerneManager>();
-builder.Services.AddScoped<IDataRepository<ElementEtape>, ElementEtapeManager>();
+builder.Services.AddScoped<IDataRepositoryElementEtape<ElementEtape>, ElementEtapeManager>();
 builder.Services.AddScoped<IDataRepositoryPanier<Panier>, PanierManager>();
 builder.Services.AddScoped<IDataRepository<LienEtape>, LienEtapeManager>();
 builder.Services.AddScoped<IDataRepository<Contient>, ContientManager>();

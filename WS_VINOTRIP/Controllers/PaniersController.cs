@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WS_VINOTRIP.Models;
 using WS_VINOTRIP.Models.EntityFramework;
 using WS_VINOTRIP.Models.Repository;
 
@@ -15,9 +17,9 @@ namespace WS_VINOTRIP.Controllers
     public class PaniersController : ControllerBase
     {
         private readonly IDataRepositoryPanier<Panier> dataRepository;
-        private readonly IDataRepository<Sejour> dataRepositorySejour;
+        private readonly IDataRepositorySejour<Sejour> dataRepositorySejour;
 
-        public PaniersController(IDataRepositoryPanier<Panier> dataRepo, IDataRepository<Sejour> dataRepoSejour)
+        public PaniersController(IDataRepositoryPanier<Panier> dataRepo, IDataRepositorySejour<Sejour> dataRepoSejour)
         {
             dataRepository = dataRepo;
             dataRepositorySejour = dataRepoSejour;
@@ -27,6 +29,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [Authorize(Policy = Policies.User)]
         public async Task<ActionResult<IEnumerable<Panier>>> GetPanierByUserId(int id)
         {
             var panier = await dataRepository.GetByUserIdAsync(id);
@@ -44,6 +47,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [Authorize(Policy = Policies.User)]
         public async Task<IActionResult> PutPanier(int userId, int sejourId, Panier panier)
         {
             if (userId != panier.PersonneId || sejourId != panier.SejourId)
@@ -70,8 +74,9 @@ namespace WS_VINOTRIP.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [Authorize(Policy = Policies.User)]
         public async Task<ActionResult<Panier>> PostPanier(Panier panier)
-        { 
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -85,6 +90,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [Authorize(Policy = Policies.User)]
         public async Task<IActionResult> DeletePanier(int userid, int sejid, bool offert)
         {
             var panier = await dataRepository.GetByIdsAsync(userid, sejid, offert);
