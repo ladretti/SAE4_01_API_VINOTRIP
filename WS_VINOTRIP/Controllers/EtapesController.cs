@@ -8,13 +8,13 @@ namespace WS_VINOTRIP.Controllers
     [ApiController]
     public class EtapeController : ControllerBase
     {
-        private readonly IDataRepository<Etape> dataRepository;
+        private readonly IDataRepositoryEtape<Etape> dataRepository;
         private readonly IDataRepository<Concerne> dataRepositoryConcerne;
         private readonly IDataRepository<ElementEtape> dataRepositoryElementEtape;
         private readonly IDataRepository<LienEtape> dataRepositoryLienEtape;
         private readonly IDataRepository<Lien> dataRepositoryLien;
 
-        public EtapeController(IDataRepository<Etape> dataRepo, IDataRepository<Concerne> dataRepoConcerne, IDataRepository<ElementEtape> dataRepoElementEtape, IDataRepository<LienEtape> dataRepoLienEtape, IDataRepository<Lien> dataRepoLien)
+        public EtapeController(IDataRepositoryEtape<Etape> dataRepo, IDataRepository<ElementEtape> dataRepoElementEtape, IDataRepository<Concerne> dataRepoConcerne, IDataRepository<LienEtape> dataRepoLienEtape, IDataRepository<Lien> dataRepoLien)
         {
             dataRepository = dataRepo;
             dataRepositoryConcerne = dataRepoConcerne;
@@ -70,6 +70,21 @@ namespace WS_VINOTRIP.Controllers
             }
 
             return etape;
+        }
+        // GET: api/Etape/5
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<IEnumerable<Etape>>> GetEtapeBySejourId(int id)
+        {
+            var etapes = await dataRepository.GetBySejourIdAsync(id);
+
+            if (etapes == null)
+            {
+                return NotFound();
+            }
+
+            return etapes;
         }
 
         // PUT: api/Etapes/5

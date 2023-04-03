@@ -25,22 +25,6 @@ namespace WS_VINOTRIP.Controllers
             dataRepositoryLien = dataRepoLien;
         }
 
-        // GET: api/Etape
-        [HttpGet]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ElementEtape>>> GetElementEtape()
-        {
-            var elementetape = await dataRepository.GetAllAsync();
-            var contient= dataRepositoryContient.GetAllAsync().Result;
-            var lien = dataRepositoryLien.GetAllAsync().Result;
-
-            if (elementetape == null)
-            {
-                return NotFound();
-            }
-            return elementetape;
-        }
-
         // GET: api/ElementEtape/5
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
@@ -64,8 +48,9 @@ namespace WS_VINOTRIP.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> PutElementEtape(int id, ElementEtape elementEtape)
         {
-            if (id != elementEtape.PersonneId)
+            if (id != elementEtape.ElementId)
             {
+                
                 return BadRequest();
             }
 
@@ -75,7 +60,7 @@ namespace WS_VINOTRIP.Controllers
             {
                 return NotFound();
             }
-
+            
             else
             {
                 await dataRepository.UpdateAsync(elementEtapeToUpdate.Value, elementEtape);

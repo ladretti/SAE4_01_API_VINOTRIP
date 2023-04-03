@@ -137,9 +137,6 @@ namespace WS_VINOTRIP.Controllers
             return NoContent();
         }
 
-        /*private bool PersonneExists(int id)
-        {
-            return (_context.Personnes?.Any(e => e.PersonneId == id)).GetValueOrDefault();
-        }*/
+       
     }
 }

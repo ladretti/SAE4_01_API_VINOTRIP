@@ -23,45 +23,13 @@ namespace WS_VINOTRIP.Controllers
             dataRepositorySejour = dataRepoSejour;
         }
 
-        // GET: api/Paniers
-        [HttpGet]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<Panier>>> GetPaniers()
-        {
-            var paniers = await dataRepository.GetAllAsync();
-            //await dataRepositorySejour.GetAllAsync();
-            return paniers;
-        }
-
         // GET: api/Paniers/5
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<IEnumerable<Panier>>> GetPanierByUserId(int id)
         {
-            var panier = dataRepository.GetAllAsync().Result.Value.Where(e => e.PersonneId == id);
-            var sejour = dataRepository.GetAllAsync().Result;
-            List<Panier> panierList = new List<Panier>();
-
-            foreach (var e in panier)
-            {
-                panierList.Add(e);
-            }
-
-            if (panier == null)
-            {
-                return NotFound();
-            }
-
-            return panierList;
-        }
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public async Task<ActionResult<Panier>> GetPanierByIds(int userId, int sejourId, bool offert)
-        {
-            var panier = await dataRepository.GetByIdsAsync(userId, sejourId, offert);
+            var panier = await dataRepository.GetByUserIdAsync(id);
 
             if (panier == null)
             {
@@ -71,7 +39,6 @@ namespace WS_VINOTRIP.Controllers
             return panier;
         }
 
-
         // PUT: api/Paniers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -79,7 +46,7 @@ namespace WS_VINOTRIP.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> PutPanier(int userId, int sejourId, Panier panier)
         {
-            if (userId != userId)
+            if (userId != panier.PersonneId || sejourId != panier.SejourId)
             {
                 return BadRequest();
             }
@@ -104,7 +71,7 @@ namespace WS_VINOTRIP.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<Panier>> PostPanier(Panier panier)
-        {
+        { 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -118,9 +85,9 @@ namespace WS_VINOTRIP.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> DeletePanier(int id)
+        public async Task<IActionResult> DeletePanier(int userid, int sejid, bool offert)
         {
-            var panier = await dataRepository.GetByIdAsync(id);
+            var panier = await dataRepository.GetByIdsAsync(userid, sejid, offert);
 
             if (panier == null)
             {

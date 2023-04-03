@@ -5,7 +5,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Models.DataManager
 {
-    public class AvisManager : IDataRepository<Avis>
+    public class AvisManager : IDataRepositoryAvis<Avis>
     {
         readonly VinotripDBContext? vinotripDbContext;
         public AvisManager()
@@ -19,6 +19,20 @@ namespace WS_VINOTRIP.Models.DataManager
         public async Task<ActionResult<IEnumerable<Avis>>> GetAllAsync()
         {
             return await vinotripDbContext.Aviss.ToListAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Avis>>> GetBySejourIdAsync(int id)
+        {
+            var avis = vinotripDbContext.Aviss.Where(e => e.SejourId == id);
+
+            List<Avis> listAvis = new List<Avis>();
+
+            foreach (Avis e in avis)
+            {
+                listAvis.Add(e);
+            }
+
+            return listAvis;
         }
 
         public async Task<ActionResult<Avis>> GetByIdAsync(int id)

@@ -21,56 +21,6 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-        // GET: api/Liens
-        [HttpGet]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<Lien>>> GetLiens()
-        {
-            return await dataRepository.GetAllAsync();
-        }
-
-        // GET: api/Liens/5
-        [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public async Task<ActionResult<Lien>> GetLienById(int id)
-        {
-            var lien = await dataRepository.GetByIdAsync(id);
-
-            if (lien == null)
-            {
-                return NotFound();
-            }
-
-            return lien;
-        }
-
-        // PUT: api/liens/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Putlien(int id, Lien lien)
-        {
-            if (id != lien.LienId)
-            {
-                return BadRequest();
-            }
-
-            var lienToUpdate = await dataRepository.GetByIdAsync(id);
-
-            if (lienToUpdate == null)
-            {
-                return NotFound();
-            }
-
-            else
-            {
-                await dataRepository.UpdateAsync(lienToUpdate.Value, lien);
-                return NoContent();
-            }
-        }
-
         // POST: api/Liens
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

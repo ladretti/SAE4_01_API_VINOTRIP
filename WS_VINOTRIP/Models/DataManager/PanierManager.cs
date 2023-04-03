@@ -26,6 +26,19 @@ namespace WS_VINOTRIP.Models.DataManager
         {
             return await vinotripDbContext.Paniers.FirstOrDefaultAsync(e => e.PersonneId == id);
         }
+        public async Task<ActionResult<IEnumerable<Panier>>> GetByUserIdAsync(int id)
+        {
+            var paniers = vinotripDbContext.Paniers.Where(e => e.PersonneId == id);
+
+            List<Panier> listPaniers = new List<Panier>();
+
+            foreach (Panier e in paniers)
+            {
+                listPaniers.Add(e);
+            }
+
+            return listPaniers;
+        }
 
         public async Task<ActionResult<Panier>> GetByStringAsync(string titre)
         {
