@@ -18,9 +18,10 @@ namespace WS_VINOTRIP.Controllers
         private readonly IDataRepositoryAdresse<Adresse> dataRepository;
         private readonly IDataRepository<Reside> dataRepositoryReside;
 
-        public AdressesController(IDataRepositoryAdresse<Adresse> dataRepo)
+        public AdressesController(IDataRepositoryAdresse<Adresse> dataRepo, IDataRepository<Reside> dataRepoReside)
         {
             dataRepository = dataRepo;
+            dataRepositoryReside = dataRepoReside;
         }
 
 
@@ -85,7 +86,12 @@ namespace WS_VINOTRIP.Controllers
             }
 
             await dataRepository.AddAsync(adresse);
-            await dataRepositoryReside.AddAsync(new Reside() { AdresseId = adresse.AdresseId, PersonneId = userId });
+            var reside = new Reside()
+            {
+                AdresseId = adresse.AdresseId,
+                PersonneId = userId
+            };
+            await dataRepositoryReside.AddAsync(reside);
 
             return CreatedAtAction("GetAdresseById", new { id = adresse.AdresseId }, adresse); // GetById : nom de l’action
         }
