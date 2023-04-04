@@ -60,7 +60,7 @@ namespace WS_VINOTRIP.Controllers
         private User AuthenticateUser(String pseudo, String mdp)
         {
             var user = dataRepository.GetByStringAsync(pseudo).Result.Value;
-            dataRepositoryPersonne.GetByIdAsync(user.PersonneId);
+            user.PersonneUser = dataRepositoryPersonne.GetByIdAsync(user.PersonneId).Result.Value;
             return user;
 
         }
