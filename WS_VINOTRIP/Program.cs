@@ -45,6 +45,8 @@ builder.Services.AddScoped<IDataRepositoryElementEtape<ElementEtape>, ElementEta
 builder.Services.AddScoped<IDataRepositoryPanier<Panier>, PanierManager>();
 builder.Services.AddScoped<IDataRepository<LienEtape>, LienEtapeManager>();
 builder.Services.AddScoped<IDataRepository<Contient>, ContientManager>();
+builder.Services.AddScoped<IDataRepositoryAdresse<Adresse>, AdresseManager>();
+builder.Services.AddScoped<IDataRepository<Reside>, ResideManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>

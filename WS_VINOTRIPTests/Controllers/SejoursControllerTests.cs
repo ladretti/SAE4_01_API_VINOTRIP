@@ -26,7 +26,7 @@ namespace WS_VINOTRIP.Controllers.Tests
 
         public SejoursControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmsDBOff; uid=postgres;\npassword=postgres;"); // Chaine de connexion à mettre dans les ( )
+            var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=vinotrip.postgres.database.azure.com;port=5432;Database=vinotrique; uid=vinotrip_admin; password=Prout18#"); // Chaine de connexion à mettre dans les ( )
             _context = new VinotripDBContext(builder.Options);
             _dataRepository = new SejourManager(_context);
             _dataRepositoryComporte = new ComporteManager(_context);

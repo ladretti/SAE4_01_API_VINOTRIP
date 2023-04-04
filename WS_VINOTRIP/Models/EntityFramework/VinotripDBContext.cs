@@ -33,6 +33,8 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public virtual DbSet<Panier>? Paniers { get; set; }
         public virtual DbSet<LienEtape>? LienEtapes { get; set; }
         public virtual DbSet<Contient>? Contients { get; set; }
+        public virtual DbSet<Adresse>? Adresses { get; set; }
+        public virtual DbSet<Reside>? Resides { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

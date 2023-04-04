@@ -13,7 +13,7 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public UserManager(VinotripDBContext context)
         {
-            vinotripDbContext = context; 
+            vinotripDbContext = context;
         }
 
         public async Task<ActionResult<IEnumerable<User>>> GetAllAsync()
@@ -26,9 +26,15 @@ namespace WS_VINOTRIP.Models.DataManager
             return await vinotripDbContext.Users.FirstOrDefaultAsync(e => e.PersonneId == id);
         }
 
-        public async Task<ActionResult<User>> GetByStringAsync(string pseudo)
+        public async Task<ActionResult<User>> GetByStringAsync(string chaine)
         {
-            return await vinotripDbContext.Users.FirstOrDefaultAsync(u => u.Pseudo.ToUpper() == pseudo.ToUpper());
+            var user = await vinotripDbContext.Users.FirstOrDefaultAsync(u => u.Pseudo.ToUpper() == chaine.ToUpper());
+            if (user == null)
+            {
+                var personne = await vinotripDbContext.Personnes.FirstOrDefaultAsync(u => u.Mail.ToUpper() == chaine.ToUpper());
+                user = await vinotripDbContext.Users.FirstOrDefaultAsync(u => u.PersonneId == personne.PersonneId);
+            }
+            return user;
         }
 
         public async Task AddAsync(User entity)

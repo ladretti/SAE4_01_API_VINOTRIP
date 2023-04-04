@@ -29,13 +29,13 @@ namespace WS_VINOTRIP.Controllers.Tests
         private readonly EtapeController _controller;
         private readonly IDataRepositoryEtape<Etape> _dataRepository;
         private readonly IDataRepository<Concerne> _dataRepositoryConcerne;
-        private readonly IDataRepository<ElementEtape> _dataRepositoryElementEtape;
+        private readonly IDataRepositoryElementEtape<ElementEtape> _dataRepositoryElementEtape;
         private readonly IDataRepository<LienEtape> _dataRepositoryLienEtape;
         private readonly IDataRepository<Lien> _dataRepositoryLien;
 
         public EtapeControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmsDBOff; uid=postgres;\npassword=postgres;"); // Chaine de connexion à mettre dans les ( )
+            var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=vinotrip.postgres.database.azure.com;port=5432;Database=vinotrique; uid=vinotrip_admin; password=Prout18#"); // Chaine de connexion à mettre dans les ( )
             _context = new VinotripDBContext(builder.Options);
             _dataRepository = new EtapeManager(_context);
             _dataRepositoryConcerne = new ConcerneManager(_context);
@@ -84,7 +84,7 @@ namespace WS_VINOTRIP.Controllers.Tests
                 Description = "\n            Petit-déjeuner à votre hébergement\n            Vous participez au Domaine Philippe Martin, propriété familiale depuis 1892, à une balade inédite en 2 CV avec les propriétaires du domaine. Une expérience inoubliable qui vous offrira des vues imprenables sur la Vallée de la Marne et vous permettra de partager, le temps d’une escapade, la passion des professionnels de la vigne et du vin. En point d’orgue de la balade, vous bénéficierez d’une dégustation de leurs meilleures cuvées\n            En option - Déjeuner dans un restaurant en centre ville d'Epernay autour d'une cuisine généreuse et de terroir – Menu entrée, plat, dessert, hors boisson\n            Vous prenez ensuite la direction du Domaine de Castellane pour une visite guidée du domaine, du musée et de sa célèbre tour panoramique de 60m de haut qui vous offrira une vue imprenable sur la ville. La visite sera suivie d’une dégustation des champagnes du domaine",
             };
             var mockRepository = new Mock<IDataRepositoryEtape<Etape>>();
-            var mockRepository1 = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository1 = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository2 = new Mock<IDataRepository<Concerne>>();
             var mockRepository3 = new Mock<IDataRepository<LienEtape>>();
             var mockRepository4 = new Mock<IDataRepository<Lien>>();
@@ -102,7 +102,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         public void GetEtapeById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
             var mockRepository = new Mock<IDataRepositoryEtape<Etape>>();
-            var mockRepository1 = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository1 = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository2 = new Mock<IDataRepository<Concerne>>();
             var mockRepository3 = new Mock<IDataRepository<LienEtape>>();
             var mockRepository4 = new Mock<IDataRepository<Lien>>();
@@ -160,7 +160,7 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
             List<Etape> etapes = new List<Etape> { etape };
             var mockRepository = new Mock<IDataRepositoryEtape<Etape>>();
-            var mockRepository1 = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository1 = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository2 = new Mock<IDataRepository<Concerne>>();
             var mockRepository3 = new Mock<IDataRepository<LienEtape>>();
             var mockRepository4 = new Mock<IDataRepository<Lien>>();
@@ -178,7 +178,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         public void GetEtapeBySejourId_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
             var mockRepository = new Mock<IDataRepositoryEtape<Etape>>();
-            var mockRepository1 = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository1 = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository2 = new Mock<IDataRepository<Concerne>>();
             var mockRepository3 = new Mock<IDataRepository<LienEtape>>();
             var mockRepository4 = new Mock<IDataRepository<Lien>>();
@@ -212,7 +212,7 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
             // Act
             var mockRepository = new Mock<IDataRepositoryEtape<Etape>>();
-            var mockRepository1 = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository1 = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository2 = new Mock<IDataRepository<Concerne>>();
             var mockRepository3 = new Mock<IDataRepository<LienEtape>>();
             var mockRepository4 = new Mock<IDataRepository<Lien>>();
@@ -232,7 +232,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         {
             // Arrange
             var mockRepository = new Mock<IDataRepositoryEtape<Etape>>();
-            var mockRepository1 = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository1 = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository2 = new Mock<IDataRepository<Concerne>>();
             var mockRepository3 = new Mock<IDataRepository<LienEtape>>();
             var mockRepository4 = new Mock<IDataRepository<Lien>>();
@@ -271,7 +271,7 @@ namespace WS_VINOTRIP.Controllers.Tests
                 Description = "\n            A votre arrivée en Bourgogne, vous vous installez à la Maison Rouge, chambre d’hôtes de charme située à quelques kilomètres de Beaune, à deux pas des vignobles de la Côte de Nuits, point de départ idéal pour une découverte de l'oenotourisme en Bourgogne\n            Dîner au restaurant La Gremelle proposant une cuisine gourmande du terroir - hors boisson, apéritif inclus (en option)\n            Nuitée à la Maison Rouge",
             };
             var mockRepository = new Mock<IDataRepositoryEtape<Etape>>();
-            var mockRepository1 = new Mock<IDataRepository<ElementEtape>>();
+            var mockRepository1 = new Mock<IDataRepositoryElementEtape<ElementEtape>>();
             var mockRepository2 = new Mock<IDataRepository<Concerne>>();
             var mockRepository3 = new Mock<IDataRepository<LienEtape>>();
             var mockRepository4 = new Mock<IDataRepository<Lien>>();

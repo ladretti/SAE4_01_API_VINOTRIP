@@ -10,11 +10,11 @@ namespace WS_VINOTRIP.Controllers
     {
         private readonly IDataRepositoryEtape<Etape> dataRepository;
         private readonly IDataRepository<Concerne> dataRepositoryConcerne;
-        private readonly IDataRepository<ElementEtape> dataRepositoryElementEtape;
+        private readonly IDataRepositoryElementEtape<ElementEtape> dataRepositoryElementEtape;
         private readonly IDataRepository<LienEtape> dataRepositoryLienEtape;
         private readonly IDataRepository<Lien> dataRepositoryLien;
 
-        public EtapeController(IDataRepositoryEtape<Etape> dataRepo, IDataRepository<ElementEtape> dataRepoElementEtape, IDataRepository<Concerne> dataRepoConcerne, IDataRepository<LienEtape> dataRepoLienEtape, IDataRepository<Lien> dataRepoLien)
+        public EtapeController(IDataRepositoryEtape<Etape> dataRepo, IDataRepositoryElementEtape<ElementEtape> dataRepoElementEtape, IDataRepository<Concerne> dataRepoConcerne, IDataRepository<LienEtape> dataRepoLienEtape, IDataRepository<Lien> dataRepoLien)
         {
             dataRepository = dataRepo;
             dataRepositoryConcerne = dataRepoConcerne;

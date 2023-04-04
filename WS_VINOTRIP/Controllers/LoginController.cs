@@ -25,10 +25,10 @@ namespace WS_VINOTRIP.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] User login)
+        public IActionResult Login(String pseudo, String mdp)
         {
             IActionResult response = Unauthorized();
-            User user = AuthenticateUser(login);
+            User user = AuthenticateUser(pseudo, mdp);
             if (user != null)
             {
                 var tokenString = GenerateJwtToken(user);
@@ -42,10 +42,10 @@ namespace WS_VINOTRIP.Controllers
         }
 
 
-        private User AuthenticateUser(User user)
+        private User AuthenticateUser(String pseudo, String mdp)
         {
             var listUsers = dataRepository.GetAllAsync().Result;
-            return listUsers.Value.FirstOrDefault(x => x.Pseudo.ToUpper() == user.Pseudo.ToUpper() && x.Mdp == user.Mdp);
+            return listUsers.Value.FirstOrDefault(x => x.Pseudo.ToUpper() == pseudo.ToUpper() && x.Mdp == mdp);
         }
 
 

@@ -18,7 +18,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public string? Rue2 { get; set; }
 
         [Required, Column("ads_cp", TypeName = "char(5)")]
-        public int Cp { get; set; }
+        public string Cp { get; set; }
 
         [Required, Column("ads_ville"), StringLength(30)]
         public string? Ville { get; set; }

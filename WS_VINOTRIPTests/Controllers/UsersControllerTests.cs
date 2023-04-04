@@ -20,13 +20,15 @@ namespace WS_VINOTRIP.Controllers.Tests
         private readonly VinotripDBContext _context;
         private readonly UsersController _controller;
         private readonly IDataRepository<User> _dataRepository;
+        private readonly IDataRepository<Personne> _dataRepository1;
 
         public UsersControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmsDBOff; uid=postgres;\npassword=postgres;"); // Chaine de connexion à mettre dans les ( )
+            var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=vinotrip.postgres.database.azure.com;port=5432;Database=vinotrique; uid=vinotrip_admin; password=Prout18#"); // Chaine de connexion à mettre dans les ( )
             _context = new VinotripDBContext(builder.Options);
             _dataRepository = new UserManager(_context);
-            _controller = new UsersController(_dataRepository);
+            _dataRepository1 = new PersonneManager(_context);
+            _controller = new UsersController(_dataRepository, _dataRepository1);
         }
 
         //public async Task<ActionResult<User>> GetUserById(int id)
@@ -63,8 +65,9 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepository<User>>();
+            var mockRepository1 = new Mock<IDataRepository<Personne>>();
             mockRepository.Setup(x => x.GetByIdAsync(130).Result).Returns(user);
-            var userController = new UsersController(mockRepository.Object);
+            var userController = new UsersController(mockRepository.Object, mockRepository1.Object);
             // Act
             var actionResult = userController.GetUserById(130).Result;
             // Assert
@@ -77,8 +80,9 @@ namespace WS_VINOTRIP.Controllers.Tests
         public void GetUserById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
             var mockRepository = new Mock<IDataRepository<User>>();
+            var mockRepository1 = new Mock<IDataRepository<Personne>>();
 
-            var UserController = new UsersController(mockRepository.Object);
+            var UserController = new UsersController(mockRepository.Object, mockRepository1.Object);
             // Act
             var actionResult = UserController.GetUserById(0).Result;
             // Assert
@@ -119,8 +123,9 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepository<User>>();
+            var mockRepository1 = new Mock<IDataRepository<Personne>>();
             mockRepository.Setup(x => x.GetByStringAsync("Cubeman74").Result).Returns(user);
-            var userController = new UsersController(mockRepository.Object);
+            var userController = new UsersController(mockRepository.Object, mockRepository1.Object);
             // Act
             var actionResult = userController.GetUserByPseudo("Cubeman74").Result;
             // Assert
@@ -132,9 +137,9 @@ namespace WS_VINOTRIP.Controllers.Tests
         [TestMethod]
         public void GetUserByPseudo_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<User>>();
-
-            var UserController = new UsersController(mockRepository.Object);
+            var mockRepository = new Mock<IDataRepository<User>>(); 
+            var mockRepository1 = new Mock<IDataRepository<Personne>>();
+            var UserController = new UsersController(mockRepository.Object, mockRepository1.Object);
             // Act
             var actionResult = UserController.GetUserByPseudo("PseudoCool").Result;
             // Assert
@@ -175,9 +180,10 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
             // Act
             var mockRepository = new Mock<IDataRepository<User>>();
+            var mockRepository1 = new Mock<IDataRepository<Personne>>();
 
             mockRepository.Setup(x => x.GetByIdAsync(130).Result).Returns(user);
-            var userController = new UsersController(mockRepository.Object);
+            var userController = new UsersController(mockRepository.Object, mockRepository1.Object);
 
             // Act
             var actionResult = userController.PutUser(userUpdated.PersonneId, userUpdated).Result;
@@ -192,9 +198,9 @@ namespace WS_VINOTRIP.Controllers.Tests
         {
             // Arrange
             var mockRepository = new Mock<IDataRepository<User>>();
+            var mockRepository1 = new Mock<IDataRepository<Personne>>();
 
-
-            var userController = new UsersController(mockRepository.Object);
+            var userController = new UsersController(mockRepository.Object, mockRepository1.Object);
 
             User user = new User
             {
@@ -238,9 +244,9 @@ namespace WS_VINOTRIP.Controllers.Tests
                 Role = "user",
             };
             var mockRepository = new Mock<IDataRepository<User>>();
-
+            var mockRepository1 = new Mock<IDataRepository<Personne>>();
             mockRepository.Setup(x => x.GetByIdAsync(130).Result).Returns(user);
-            var userController = new UsersController(mockRepository.Object);
+            var userController = new UsersController(mockRepository.Object, mockRepository1.Object);
 
             // Act
             var actionResult = userController.DeleteUser(130).Result;

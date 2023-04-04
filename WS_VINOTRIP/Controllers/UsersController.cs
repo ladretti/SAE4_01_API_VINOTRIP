@@ -17,10 +17,12 @@ namespace WS_VINOTRIP.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IDataRepository<User> dataRepository;
+        private readonly IDataRepository<Personne> dataRepositoryPersonne;
 
-        public UsersController(IDataRepository<User> dataRepo)
+        public UsersController(IDataRepository<User> dataRepo, IDataRepository<Personne> dataRepoPersonne)
         {
             dataRepository = dataRepo;
+            dataRepositoryPersonne = dataRepoPersonne;
         }
 
         [HttpGet]
@@ -59,6 +61,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             var user = await dataRepository.GetByIdAsync(id);
+            await dataRepositoryPersonne.GetByIdAsync(id);
 
             if (user == null)
             {
