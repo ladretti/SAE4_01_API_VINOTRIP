@@ -59,9 +59,10 @@ namespace WS_VINOTRIP.Controllers
 
         private User AuthenticateUser(String pseudo, String mdp)
         {
-            var listUsers = dataRepository.GetAllAsync().Result;
-            dataRepositoryPersonne.GetAllAsync();
-            return listUsers.Value.FirstOrDefault(x => x.Pseudo.ToUpper() == pseudo.ToUpper() && x.Mdp == mdp);
+            var user = dataRepository.GetByStringAsync(pseudo).Result.Value;
+            dataRepositoryPersonne.GetByIdAsync(user.PersonneId);
+            return user;
+
         }
 
         /// <summary>
