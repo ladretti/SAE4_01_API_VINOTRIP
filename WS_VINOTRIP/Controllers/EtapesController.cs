@@ -24,7 +24,10 @@ namespace WS_VINOTRIP.Controllers
         }
 
 
-        // GET: api/Etape
+        /// <summary>
+        /// Obtient toutes les étapes existantes.
+        /// </summary>
+        /// <returns>Une action résultant en une liste d'étapes existantes.</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Etape>>> GetEtape()
@@ -40,7 +43,11 @@ namespace WS_VINOTRIP.Controllers
             return etape;
         }
 
-        // GET: api/Concerne
+        /// <summary>
+        /// Obtient tous les concerne existants.
+        /// </summary>
+        /// <returns>Une action résultant en une liste de concerne existants.</returns>
+
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Concerne>>> GetConcerne()
@@ -54,7 +61,12 @@ namespace WS_VINOTRIP.Controllers
             return concerne;
         }
 
-        // GET: api/Etape/5
+        /// <summary>
+        /// Obtient une étape spécifique par son ID.
+        /// </summary>
+        /// <param name="id">L'ID de l'étape à récupérer.</param>
+        /// <returns>Une action résultant en l'étape correspondante ou NotFound si elle n'existe pas.</returns>
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -71,7 +83,13 @@ namespace WS_VINOTRIP.Controllers
 
             return etape;
         }
-        // GET: api/Etape/5
+
+        /// <summary>
+        /// Obtient toutes les étapes correspondant à un séjour spécifique.
+        /// </summary>
+        /// <param name="id">L'ID du séjour dont les étapes doivent être récupérées.</param>
+        /// <returns>Une action résultant en une liste d'étapes correspondantes ou NotFound si aucune étape n'est trouvée.</returns>
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -87,8 +105,13 @@ namespace WS_VINOTRIP.Controllers
             return etapes;
         }
 
-        // PUT: api/Etapes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Met à jour une étape en fonction de son identifiant.
+        /// </summary>
+        /// <param name="id">L'identifiant de l'étape à mettre à jour.</param>
+        /// <param name="etape">L'objet étape avec les données à mettre à jour.</param>
+        /// <returns>Un code de réponse HTTP 204 No Content si la mise à jour est réussie, ou un code de réponse HTTP 400 Bad Request si l'identifiant fourni ne correspond pas à celui de l'étape fournie, ou un code de réponse HTTP 404 Not Found si l'étape n'est pas trouvée.</returns>
+
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -113,8 +136,12 @@ namespace WS_VINOTRIP.Controllers
             }
         }
 
-        // POST: api/Etape
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute une nouvelle étape.
+        /// </summary>
+        /// <param name="etape">L'objet étape à ajouter.</param>
+        /// <returns>Un code de réponse HTTP 201 Created si l'ajout est réussi, avec l'objet étape créé dans le corps de la réponse, ou un code de réponse HTTP 400 Bad Request si les données fournies ne sont pas valides.</returns>
+
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -130,7 +157,12 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetEtapeById", new { id = etape.SejourId }, etape); // GetById : nom de l’action
         }
 
-        // DELETE: api/Etape/5
+        /// <summary>
+        /// Supprime une étape en fonction de son identifiant.
+        /// </summary>
+        /// <param name="id">L'identifiant de l'étape à supprimer.</param>
+        /// <returns>Un code de réponse HTTP 204 No Content si la suppression est réussie, ou un code de réponse HTTP 404 Not Found si l'étape n'est pas trouvée.</returns>
+
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

@@ -25,6 +25,10 @@ namespace WS_VINOTRIP.Controllers
             dataRepositoryPersonne = dataRepoPersonne;
         }
 
+
+        /// <summary>
+        /// Renvoie les informations utilisateur pour les utilisateurs ayant le rôle 'User'
+        /// </summary>
         [HttpGet]
         [Route("GetUserData")]
         [Authorize(Policy = Policies.User)]
@@ -32,6 +36,10 @@ namespace WS_VINOTRIP.Controllers
         {
             return Ok("This is a response from user method");
         }
+
+        /// <summary>
+        /// Renvoie les informations administrateur pour les utilisateurs ayant le rôle 'Admin'
+        /// </summary>
         [HttpGet]
         [Route("GetAdminData")]
         [Authorize(Policy = Policies.Admin)]
@@ -40,7 +48,10 @@ namespace WS_VINOTRIP.Controllers
             return Ok("This is a response from Admin method");
         }
 
-        // GET: api/Users
+        /// <summary>
+        /// Renvoie tous les utilisateurs
+        /// </summary>
+        /// <returns>Une liste des utilisateurs</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -54,7 +65,11 @@ namespace WS_VINOTRIP.Controllers
             return users;
         }
 
-        // GET: api/Users/5
+        /// <summary>
+        /// Renvoie un utilisateur par son identifiant
+        /// </summary>
+        /// <param name="id">Identifiant de l'utilisateur</param>
+        /// <returns>L'utilisateur correspondant à l'identifiant donné</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -70,7 +85,12 @@ namespace WS_VINOTRIP.Controllers
 
             return user;
         }
-        // GET: api/Users/5
+
+        /// <summary>
+        /// Renvoie un utilisateur par son pseudo
+        /// </summary>
+        /// <param name="pseudo">Pseudo de l'utilisateur</param>
+        /// <returns>L'utilisateur correspondant au pseudo donné</returns>
         [HttpGet("{pseudo}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -86,8 +106,13 @@ namespace WS_VINOTRIP.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Met à jour un utilisateur existant
+        /// </summary>
+        /// <param name="id">Identifiant de l'utilisateur à mettre à jour</param>
+        /// <param name="user">Nouvelles informations pour l'utilisateur</param>
+        /// <returns>Une réponse 'NoContent' si l'utilisateur est mis à jour avec succès</returns>
+
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -112,8 +137,12 @@ namespace WS_VINOTRIP.Controllers
             }
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute un nouvel utilisateur
+        /// </summary>
+        /// <param name="user">Informations pour le nouvel utilisateur</param>
+        /// <returns>Une réponse 'CreatedAtAction' avec l'utilisateur nouvellement créé</returns>
+
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -127,23 +156,15 @@ namespace WS_VINOTRIP.Controllers
             await dataRepository.AddAsync(user);
 
             return CreatedAtAction("GetUserById", new { id = user.PersonneId }, user); // GetUserById : nom de l’action
-            /*{
-                "pseudo": "Cessouille",
-                "tel": "0782602628",
-                "newsletter": true,
-                "estVerifie": true,
-                "role": "user",
-                "dateConnexion": "2023-03-24T08:37:36.337Z",
-                "titre": "M.",
-                "prenom": "Célian",
-                "dateNaissance": "2003-08-07",
-                "mdp": "oui",
-                "resideUser": [],
-                "personneUser": null
-            }*/
+            
         }
 
-        // DELETE: api/Users/5
+        /// <summary>
+        /// Supprime un utilisateur en utilisant l'ID de l'utilisateur.
+        /// </summary>
+        /// <param name="id">ID de l'utilisateur à supprimer.</param>
+        /// <returns>ActionResult avec un code de statut HTTP 204 No Content si la suppression est réussie, ou un code de statut HTTP 404 Not Found si l'utilisateur n'existe pas.</returns>
+
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

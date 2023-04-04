@@ -25,11 +25,15 @@ namespace WS_VINOTRIP.Controllers
             dataRepositorySejour = dataRepoSejour;
         }
 
-        // GET: api/Paniers/5
+        /// <summary>
+        /// Obtient un panier par l'identifiant de l'utilisateur.
+        /// </summary>
+        /// <param name="id">L'identifiant de l'utilisateur.</param>
+        /// <returns>Une liste des paniers de l'utilisateur correspondant à l'identifiant fourni.</returns>
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        [Authorize(Policy = Policies.User)]
         public async Task<ActionResult<IEnumerable<Panier>>> GetPanierByUserId(int id)
         {
             var panier = await dataRepository.GetByUserIdAsync(id);
@@ -42,8 +46,13 @@ namespace WS_VINOTRIP.Controllers
             return panier;
         }
 
-        // PUT: api/Paniers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Met à jour un panier.
+        /// </summary>
+        /// <param name="userId">L'identifiant de l'utilisateur.</param>
+        /// <param name="sejourId">L'identifiant du séjour.</param>
+        /// <param name="panier">Les données à mettre à jour.</param>
+        /// <returns>Un code 204 No Content si la mise à jour a réussi.</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -69,8 +78,11 @@ namespace WS_VINOTRIP.Controllers
             }
         }
 
-        // POST: api/Paniers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute un nouveau panier.
+        /// </summary>
+        /// <param name="panier">Le panier à ajouter.</param>
+        /// <returns>Le nouveau panier créé.</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -86,7 +98,14 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetPanierById", new { userId = panier.PersonneId, sejourId = panier.SejourId, offert = panier.Offert }, panier); // GetById : nom de l’action
         }
 
-        // DELETE: api/Paniers/5
+        /// <summary>
+        /// Supprime un élément de panier pour un utilisateur spécifié, pour un séjour et un statut "offert" donnés.
+        /// </summary>
+        /// <param name="userid">Identifiant de l'utilisateur</param>
+        /// <param name="sejid">Identifiant du séjour</param>
+        /// <param name="offert">Statut "offert" de l'élément de panier</param>
+        /// <returns>Renvoie un IActionResult indiquant le résultat de l'opération</returns>
+
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

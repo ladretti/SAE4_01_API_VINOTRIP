@@ -25,7 +25,11 @@ namespace WS_VINOTRIP.Controllers
             dataRepositoryLienRouteDesVins = dataRepoLienRouteDesVins;
         }
 
-        // GET: api/RouteDesVins
+        /// <summary>
+        /// Obtient tous les vignobles dans la collection "RouteDesVins" de la base de données.
+        /// </summary>
+        /// <returns>Une liste de tous les vignobles dans la collection "RouteDesVins".</returns>
+        /// <response code="200">Retourne la liste des vignobles.</response>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<RouteDesVins>>> GetRoutesDesVins()
@@ -41,7 +45,14 @@ namespace WS_VINOTRIP.Controllers
             return routeDesVins;
         }
 
-        // GET: api/RouteDesVins/5
+        /// <summary>
+        /// Obtient un vignoble spécifique dans la collection "RouteDesVins" de la base de données en fonction de son identifiant.
+        /// </summary>
+        /// <param name="id">Identifiant du vignoble.</param>
+        /// <returns>Le vignoble ayant l'identifiant spécifié.</returns>
+        /// <response code="200">Retourne le vignoble ayant l'identifiant spécifié.</response>
+        /// <response code="404">Si aucun vignoble n'est trouvé avec l'identifiant spécifié.</response>
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

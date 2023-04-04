@@ -21,8 +21,11 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-        // POST: api/Liens
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute un nouveau lien dans la base de données.
+        /// </summary>
+        /// <param name="lien">Le lien à ajouter.</param>
+        /// <returns>Une action de création contenant le lien ajouté.</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -38,7 +41,12 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetLienById", new { id = lien.LienId }, lien); // GetById : nom de l’action
         }
 
-        // DELETE: api/Liens/5
+        // <summary>
+        /// Supprime le lien ayant l'identifiant spécifié de la base de données.
+        /// </summary>
+        /// <param name="id">L'identifiant du lien à supprimer.</param>
+        /// <returns>Une action sans contenu si le lien a été supprimé avec succès, NotFound si aucun lien avec cet identifiant n'a été trouvé.</returns>
+
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

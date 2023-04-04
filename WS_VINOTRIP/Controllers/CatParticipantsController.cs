@@ -21,7 +21,10 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-        // GET: api/CatParticipants
+        /// <summary>
+        /// Récupère tous les CatParticipants.
+        /// </summary>
+        /// <returns>Une liste de tous les CatParticipants.</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CatParticipant>>> GetCatsParticipant()
@@ -36,7 +39,11 @@ namespace WS_VINOTRIP.Controllers
             return catsParticipant;
         }
 
-        // GET: api/CatParticipants/5
+        /// <summary>
+        /// Récupère un CatParticipant en fonction de son identifiant.
+        /// </summary>
+        /// <param name="id">Identifiant du CatParticipant à récupérer.</param>
+        /// <returns>Le CatParticipant correspondant à l'identifiant spécifié.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

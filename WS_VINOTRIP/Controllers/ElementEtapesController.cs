@@ -25,7 +25,11 @@ namespace WS_VINOTRIP.Controllers
             dataRepositoryLien = dataRepoLien;
         }
 
-        // GET: api/ElementEtape/5
+        /// <summary>
+        /// Récupère un élément étape par son ID
+        /// </summary>
+        /// <param name="id">L'ID de l'élément étape à récupérer</param>
+        /// <returns>L'élément étape correspondant à l'ID fourni</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -40,7 +44,13 @@ namespace WS_VINOTRIP.Controllers
 
             return elementEtape;
         }
-        // GET: api/ElementEtape/5
+
+        /// <summary>
+        /// Récupère tous les éléments étapes d'une étape
+        /// </summary>
+        /// <param name="id">L'ID de l'étape pour laquelle récupérer les éléments étapes</param>
+        /// <returns>La liste des éléments étapes de l'étape correspondante à l'ID fourni</returns>
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -57,8 +67,12 @@ namespace WS_VINOTRIP.Controllers
             return elementEtape;
         }
 
-        // PUT: api/ElementEtape/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Met à jour un élément étape existant
+        /// </summary>
+        /// <param name="id">L'ID de l'élément étape à mettre à jour</param>
+        /// <param name="elementEtape">L'élément étape mis à jour</param>
+        /// <returns>Une réponse HTTP 201 si la mise à jour a réussi, une réponse HTTP 400 si la requête est invalide, une réponse HTTP 404 si l'élément étape n'a pas été trouvé</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -84,8 +98,11 @@ namespace WS_VINOTRIP.Controllers
             }
         }
 
-        // POST: api/ElementEtape
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute un nouvel élément étape
+        /// </summary>
+        /// <param name="elementEtape">L'élément étape à ajouter</param>
+        /// <returns>Une réponse HTTP 201 avec l'élément étape ajouté si la création a réussi, une réponse HTTP 400 si la requête est invalide</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -101,7 +118,11 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetById", new { id = elementEtape.ElementId }, elementEtape); // GetById : nom de l’action
         }
 
-        // DELETE: api/ElementEtape/5
+        /// <summary>
+        /// Supprime un élément étape existant
+        /// </summary>
+        /// <param name="id">L'ID de l'élément étape à supprimer</param>
+        /// <returns>Une réponse HTTP 204 si la suppression a réussi, une réponse HTTP 404 si l
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

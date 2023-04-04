@@ -21,7 +21,10 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-        // GET: api/CatVignobles
+        /// <summary>
+        /// Récupère tous les éléments de la catégorie "Vignoble".
+        /// </summary>
+        /// <returns>Une liste d'éléments de la catégorie "Vignoble".</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CatVignoble>>> GetCatsVignoble()
@@ -35,7 +38,11 @@ namespace WS_VINOTRIP.Controllers
             return catsVignoble;
         }
 
-        // GET: api/CatVignobles/5
+        /// <summary>
+        /// Récupère un élément de la catégorie "Vignoble" par son identifiant.
+        /// </summary>
+        /// <param name="id">L'identifiant de l'élément de la catégorie "Vignoble" à récupérer.</param>
+        /// <returns>L'élément de la catégorie "Vignoble" correspondant à l'identifiant donné.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -51,32 +58,6 @@ namespace WS_VINOTRIP.Controllers
             return catVignoble;
         }
 
-        /*// PUT: api/CatVignobles/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCatVignoble(int id, CatVignoble catVignoble)
-        {
-            throw new NotImplementedException();
-        }
-
-        // POST: api/CatVignobles
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<CatVignoble>> PostCatVignoble(CatVignoble catVignoble)
-        {
-            throw new NotImplementedException();
-        }
-
-        // DELETE: api/CatVignobles/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCatVignoble(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool CatVignobleExists(int id)
-        {
-            throw new NotImplementedException();
-        }*/
+       
     }
 }

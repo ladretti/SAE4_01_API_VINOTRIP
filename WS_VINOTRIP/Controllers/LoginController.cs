@@ -16,12 +16,21 @@ namespace WS_VINOTRIP.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IDataRepository<User> dataRepository;
+        private readonly IDataRepository<Personne> dataRepositoryPersonne;
 
-        public LoginController(IConfiguration config, IDataRepository<User> dataRepo)
+        public LoginController(IConfiguration config, IDataRepository<User> dataRepo, IDataRepository<Personne> dataRepoPersonne)
         {
             _config = config;
             dataRepository = dataRepo;
+            dataRepositoryPersonne = dataRepoPersonne;
         }
+
+        /// <summary>
+        /// Fonction HTTP POST qui permet de s'authentifier avec un pseudo et un mot de passe
+        /// </summary>
+        /// <param name="pseudo">Pseudo de l'utilisateur</param>
+        /// <param name="mdp">Mot de passe de l'utilisateur</param>
+        /// <returns>Renvoie un token JWT pour l'utilisateur si l'authentification réussit, sinon renvoie une réponse Unauthorized</returns>
 
         [HttpPost]
         [AllowAnonymous]
@@ -41,13 +50,25 @@ namespace WS_VINOTRIP.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Fonction qui permet d'authentifier un utilisateur avec son pseudo et son mot de passe
+        /// </summary>
+        /// <param name="pseudo">Pseudo de l'utilisateur</param>
+        /// <param name="mdp">Mot de passe de l'utilisateur</param>
+        /// <returns>Retourne l'utilisateur correspondant au pseudo et mot de passe fournis</returns>
 
         private User AuthenticateUser(String pseudo, String mdp)
         {
             var listUsers = dataRepository.GetAllAsync().Result;
+            dataRepositoryPersonne.GetAllAsync();
             return listUsers.Value.FirstOrDefault(x => x.Pseudo.ToUpper() == pseudo.ToUpper() && x.Mdp == mdp);
         }
 
+        /// <summary>
+        /// Fonction qui permet de générer un token JWT pour un utilisateur authentifié
+        /// </summary>
+        /// <param name="userInfo">Informations de l'utilisateur</param>
+        /// <returns>Renvoie le token JWT pour l'utilisateur authentifié</returns>
 
         private string GenerateJwtToken(User userInfo)
         {

@@ -21,7 +21,10 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-        // GET: api/CatSejours
+        /// <summary>
+        /// Récupère toutes les catégories de séjour
+        /// </summary>
+        /// <returns>La liste de toutes les catégories de séjour</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CatSejour>>> GetCatsSejour()
@@ -35,7 +38,11 @@ namespace WS_VINOTRIP.Controllers
             return catsSejour;
         }
 
-        // GET: api/CatSejours/5
+        /// <summary>
+        /// Récupère une catégorie de séjour par son identifiant
+        /// </summary>
+        /// <param name="id">L'identifiant de la catégorie de séjour</param>
+        /// <returns>La catégorie de séjour correspondant à l'identifiant spécifié</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

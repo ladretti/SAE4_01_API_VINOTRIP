@@ -28,7 +28,10 @@ namespace WS_VINOTRIP.Controllers
             dataRepositoryLienElementVignoble = dataRepoLienElementVignoble;
         }
 
-        // GET: api/Vignobles
+        /// <summary>
+        /// Récupère tous les vignobles.
+        /// </summary>
+        /// <returns>Une liste de tous les vignobles.</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Vignoble>>> GetVignobles()
@@ -43,7 +46,12 @@ namespace WS_VINOTRIP.Controllers
             return vignobles;
         }
 
-        // GET: api/Vignobles/5
+
+        /// <summary>
+        /// Récupère un vignoble en fonction de son identifiant.
+        /// </summary>
+        /// <param name="id">L'identifiant du vignoble à récupérer.</param>
+        /// <returns>Le vignoble correspondant à l'identifiant donné.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

@@ -28,7 +28,9 @@ namespace WS_VINOTRIP.Controllers
             /*dataRepository3 = dataRepo3;*/
         }
 
-        // GET: api/Sejours
+        /// <summary>
+        /// Récupère tous les séjours enregistrés.
+        /// </summary>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Sejour>>> GetSejours()
@@ -46,7 +48,10 @@ namespace WS_VINOTRIP.Controllers
             return sejours;
         }
 
-        // GET: api/Sejours/5
+        /// <summary>
+        /// Récupère un séjour enregistré à partir de son ID.
+        /// </summary>
+        /// <param name="id">L'ID du séjour à récupérer.</param>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -65,36 +70,10 @@ namespace WS_VINOTRIP.Controllers
             return sejour;
         }
 
-        /*//idcatvignoble idcatsejour, idcatparticipant
-        [HttpGet]
-        [Route("[action]/{catsejour}/{catvignoble}/{catparticipant}")]
-        [ActionName("GetWithFilter")]
-        public async Task<ActionResult<IEnumerable<Sejour>>> GetSejourFilter(int catsejour, int catvignoble, int catparticipant)
-        {
-            List<Sejour> filterList = new List<Sejour>();
-
-            if (catsejour == null && catvignoble == null && catparticipant == null)
-                return dataRepository.GetAllAsync().Result;
-            
-            var truc = dataRepositoryComporte.GetAllAsync().Result.Value.Where(e => e.CatParticipantId == catparticipant);
-
-            foreach (var item in truc)
-            {
-                var t = dataRepository.GetAllAsync().Result.Value.Where(e => e.CatSejourId == catsejour && e.CatVignobleId == catvignoble && e.SejourId == item.SejourId).FirstOrDefault();
-                if (t != null)
-                    filterList.Add(t);
-            }
-
-
-            if (filterList == null)
-            {
-                return NotFound();
-            }
-
-            return filterList;
-        }*/
-
-        // GET: api/Sejours/5
+        /// <summary>
+        /// Récupère tous les séjours enregistrés pour une route des vins donnée.
+        /// </summary>
+        /// <param name="id">L'ID de la route des vins.</param>
         [HttpGet]
         [Route("[action]/{id}")]
         [ProducesResponseType(201)]
@@ -116,8 +95,7 @@ namespace WS_VINOTRIP.Controllers
             return sejours;
         }
 
-        // PUT: api/Sejours/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
@@ -142,8 +120,10 @@ namespace WS_VINOTRIP.Controllers
             }
         }
 
-        // POST: api/Sejours
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute un nouveau séjour enregistré.
+        /// </summary>
+        /// <param name="sejour">Le séjour à ajouter.</param>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -159,7 +139,11 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetSejourById", new { id = sejour.SejourId }, sejour); // GetById : nom de l’action
         }
 
-        // DELETE: api/Sejours/5
+        /// <summary>
+        /// Supprime un séjour spécifié par son identifiant.
+        /// </summary>
+        /// <param name="id">Identifiant du séjour à supprimer.</param>
+        /// <returns>Une action HTTP qui représente le résultat de l'opération.</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -177,9 +161,6 @@ namespace WS_VINOTRIP.Controllers
             return NoContent();
         }
 
-        /*private bool SejourExists(int id)
-        {
-            return _context.Sejours.Any(e => e.SejourId == id);
-        }*/
+
     }
 }

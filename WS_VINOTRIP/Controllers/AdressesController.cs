@@ -25,7 +25,13 @@ namespace WS_VINOTRIP.Controllers
 
 
 
-        // GET: api/Avis/5
+        /// <summary>
+        /// Récupère une adresse par son ID.
+        /// </summary>
+        /// <param name="id">ID de l'adresse à récupérer.</param>
+        /// <returns>
+        /// Une adresse correspondant à l'ID donné, ou un code de réponse HTTP 404 (Non trouvé) si l'adresse n'est pas trouvée.
+        /// </returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -41,7 +47,13 @@ namespace WS_VINOTRIP.Controllers
             return adresse;
         }
 
-        // GET: api/Adresses/5
+        /// <summary>
+        /// Récupère une liste d'adresses par ID utilisateur.
+        /// </summary>
+        /// <param name="userid">ID de l'utilisateur pour lequel récupérer les adresses.</param>
+        /// <returns>
+        /// Une liste d'adresses correspondant à l'ID utilisateur donné, ou un code de réponse HTTP 404 (Non trouvé) si aucune adresse n'est trouvée.
+        /// </returns>
         [HttpGet("{userid}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -57,8 +69,13 @@ namespace WS_VINOTRIP.Controllers
             return adresse;
         }
 
-        // POST: api/Adresses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Récupère une liste d'adresses par ID utilisateur.
+        /// </summary>
+        /// <param name="userid">ID de l'utilisateur pour lequel récupérer les adresses.</param>
+        /// <returns>
+        /// Une liste d'adresses correspondant à l'ID utilisateur donné, ou un code de réponse HTTP 404 (Non trouvé) si aucune adresse n'est trouvée.
+        /// </returns>
         [HttpPost]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse, int userId)
         {
@@ -73,7 +90,16 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetAdresseById", new { id = adresse.AdresseId }, adresse); // GetById : nom de l’action
         }
 
-        // DELETE: api/Adresses/5
+        /// <summary>
+        /// Supprime une adresse par son ID.
+        /// </summary>
+        /// <param name="id">ID de l'adresse à supprimer.</param>
+        /// <returns>
+        /// Un code de réponse HTTP 204 (Pas de contenu) si l'adresse est supprimée avec succès, ou un code de réponse HTTP 404 (Non trouvé) si l'adresse n'est pas trouvée.
+        /// </returns>
+        /// <remarks>
+        /// Cette méthode est une action d'API web ASP.NET Core qui est déclenchée lorsqu'une requête HTTP DELETE est reçue avec un ID en tant que paramètre d'URL.
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdresse(int id)
         {

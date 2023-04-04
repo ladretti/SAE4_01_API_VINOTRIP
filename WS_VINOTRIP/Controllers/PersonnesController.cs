@@ -21,7 +21,10 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-        // GET: api/Personnes
+        /// <summary>
+        /// Récupère toutes les personnes
+        /// </summary>
+        /// <returns>La liste de toutes les personnes</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Personne>>> GetPersonnes()
@@ -35,7 +38,11 @@ namespace WS_VINOTRIP.Controllers
             return personnes;
         }
 
-        // GET: api/Personnes/5
+        /// <summary>
+        /// Récupère une personne par son identifiant
+        /// </summary>
+        /// <param name="id">L'identifiant de la personne</param>
+        /// <returns>La personne correspondante</returns>
         [HttpGet("{id}")]
         [ActionName("GetPersonneById")]
         [ProducesResponseType(200)]
@@ -52,6 +59,11 @@ namespace WS_VINOTRIP.Controllers
             return personne;
         }
 
+        /// <summary>
+        /// Récupère une personne par son adresse mail
+        /// </summary>
+        /// <param name="mail">L'adresse mail de la personne</param>
+        /// <returns>La personne correspondante</returns>
         [HttpGet("{mail}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -67,6 +79,10 @@ namespace WS_VINOTRIP.Controllers
             return personne;
         }
 
+        /// <summary>
+        /// Récupère l'identifiant maximum des personnes
+        /// </summary>
+        /// <returns>L'identifiant maximum</returns>
         [HttpGet]
         [ActionName("GetMaxPersonneId")]
         public async Task<ActionResult<int>> GetMaxPersonneId()
@@ -76,8 +92,12 @@ namespace WS_VINOTRIP.Controllers
             return maxId;
         }
 
-        // PUT: api/Personnes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Met à jour une personne
+        /// </summary>
+        /// <param name="id">L'identifiant de la personne à mettre à jour</param>
+        /// <param name="personne">La personne avec les nouvelles données</param>
+        /// <returns>Une réponse HTTP</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -102,8 +122,11 @@ namespace WS_VINOTRIP.Controllers
             }
         }
 
-        // POST: api/Personnes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute une nouvelle personne
+        /// </summary>
+        /// <param name="personne">La personne à ajouter</param>
+        /// <returns>La personne ajoutée</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -119,7 +142,11 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetPersonneById", new { id = personne.PersonneId }, personne); // GetPersonneById : nom de l’action
         }
 
-        // DELETE: api/Personnes/5
+        /// <summary>
+        /// Supprime une personne
+        /// </summary>
+        /// <param name="id">L'identifiant de la personne à supprimer</param>
+        /// <returns>Une réponse HTTP</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

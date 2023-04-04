@@ -21,7 +21,11 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
-        // GET: api/Avis/5
+        /// <summary>
+        /// Récupère un avis par son identifiant.
+        /// </summary>
+        /// <param name="id">Identifiant de l'avis.</param>
+        /// <returns>L'avis correspondant à l'identifiant donné.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -37,6 +41,11 @@ namespace WS_VINOTRIP.Controllers
             return avis;
         }
 
+        /// <summary>
+        /// Récupère tous les avis associés à un séjour.
+        /// </summary>
+        /// <param name="id">Identifiant du séjour.</param>
+        /// <returns>La liste des avis associés au séjour donné.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -52,8 +61,11 @@ namespace WS_VINOTRIP.Controllers
             return avis;
         }
 
-        // POST: api/Avis
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Ajoute un nouvel avis.
+        /// </summary>
+        /// <param name="avis">L'avis à ajouter.</param>
+        /// <returns>Le nouvel avis ajouté.</returns>
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -69,7 +81,12 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetAvisById", new { id = avis.SejourId }, avis); // GetById : nom de l’action
         }
 
-        // DELETE: api/Avis/5
+        /// <summary>
+        /// Supprime un avis.
+        /// </summary>
+        /// <param name="id">Identifiant de l'avis à supprimer.</param>
+        /// <returns>204 si la suppression s'est bien déroulée, 404 si l'avis n'existe pas.</returns>
+
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
