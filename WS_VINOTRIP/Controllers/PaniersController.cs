@@ -56,7 +56,6 @@ namespace WS_VINOTRIP.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Authorize(Policy = Policies.User)]
         public async Task<IActionResult> PutPanier(int userId, int sejourId, Panier panier)
         {
             if (userId != panier.PersonneId || sejourId != panier.SejourId)
@@ -86,7 +85,6 @@ namespace WS_VINOTRIP.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Authorize(Policy = Policies.User)]
         public async Task<ActionResult<Panier>> PostPanier(Panier panier)
         {
             if (!ModelState.IsValid)
@@ -109,7 +107,6 @@ namespace WS_VINOTRIP.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        [Authorize(Policy = Policies.User)]
         public async Task<IActionResult> DeletePanier(int userid, int sejid, bool offert)
         {
             var panier = await dataRepository.GetByIdsAsync(userid, sejid, offert);

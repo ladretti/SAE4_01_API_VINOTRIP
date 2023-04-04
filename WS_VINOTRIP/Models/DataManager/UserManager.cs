@@ -23,6 +23,7 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task<ActionResult<User>> GetByIdAsync(int id)
         {
+          
             return await vinotripDbContext.Users.FirstOrDefaultAsync(e => e.PersonneId == id);
         }
 
@@ -45,7 +46,8 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task UpdateAsync(User user, User entity)
         {
-            vinotripDbContext.Entry(entity).State = EntityState.Modified;
+            vinotripDbContext.Entry(user).State = EntityState.Modified;
+            
             user.PersonneId = entity.PersonneId;
             user.Titre = entity.Titre;
             user.Prenom = entity.Prenom;

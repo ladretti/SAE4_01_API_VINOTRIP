@@ -49,6 +49,10 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task UpdateAsync(Etape etape, Etape entity)
         {
+            vinotripDbContext.Entry(etape).State = EntityState.Modified;
+            etape.Titre = entity.Titre;
+            etape.Description = entity.Titre;
+            await vinotripDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Etape etape)

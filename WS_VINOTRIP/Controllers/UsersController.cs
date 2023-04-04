@@ -124,6 +124,7 @@ namespace WS_VINOTRIP.Controllers
             }
 
             var userToUpdate = await dataRepository.GetByIdAsync(id);
+            await dataRepositoryPersonne.GetByIdAsync(id);
 
             if (userToUpdate == null)
             {
@@ -132,7 +133,9 @@ namespace WS_VINOTRIP.Controllers
 
             else
             {
+                
                 await dataRepository.UpdateAsync(userToUpdate.Value, user);
+                
                 return NoContent();
             }
         }

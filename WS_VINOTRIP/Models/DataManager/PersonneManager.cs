@@ -38,7 +38,7 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task UpdateAsync(Personne personne, Personne entity)
         {
-            vinotripDbContext.Entry(entity).State = EntityState.Modified;
+            vinotripDbContext.Entry(personne).State = EntityState.Modified;
             personne.PersonneId = entity.PersonneId;
             personne.Nom = entity.Nom;
             personne.Mail = entity.Mail;

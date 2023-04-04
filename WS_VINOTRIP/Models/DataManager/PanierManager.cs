@@ -57,13 +57,19 @@ namespace WS_VINOTRIP.Models.DataManager
             await vinotripDbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Panier Panier, Panier entity)
+        public async Task UpdateAsync(Panier panier, Panier entity)
         {
+            vinotripDbContext.Entry(panier).State = EntityState.Modified;
+            panier.DateSejour = entity.DateSejour;
+            panier.NbAdultes = entity.NbAdultes;
+            panier.NbChambres = entity.NbChambres;
+            panier.NbChambres = entity.NbChambres;
+            await vinotripDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Panier Panier)
+        public async Task DeleteAsync(Panier panier)
         {
-            vinotripDbContext.Paniers.Remove(Panier);
+            vinotripDbContext.Paniers.Remove(panier);
             await vinotripDbContext.SaveChangesAsync();
         }
     }
