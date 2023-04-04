@@ -35,6 +35,8 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public virtual DbSet<Contient>? Contients { get; set; }
         public virtual DbSet<Adresse>? Adresses { get; set; }
         public virtual DbSet<Reside>? Resides { get; set; }
+        public virtual DbSet<CompteCarte>? CompteCartes { get; set; }
+        public virtual DbSet<RefCarteBancaire>? RefCarteBancaires { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -536,16 +538,16 @@ namespace WS_VINOTRIP.Models.EntityFramework
                     .HasConstraintName("fk_rsd_cmp");
             });
 
-                modelBuilder.Entity<RouteDesVins>(entity =>
-            {
-                entity.HasKey(e => new { e.RouteDesVinsId })
-                    .HasName("pk_rdv");
+            modelBuilder.Entity<RouteDesVins>(entity =>
+        {
+            entity.HasKey(e => new { e.RouteDesVinsId })
+                .HasName("pk_rdv");
 
-                entity.HasOne(d => d.VignobleRouteDesVins).WithMany(p => p.RouteDesVinsVignoble)
-                    .HasForeignKey(d => d.VignobleId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_rdv_vgb");
-            });
+            entity.HasOne(d => d.VignobleRouteDesVins).WithMany(p => p.RouteDesVinsVignoble)
+                .HasForeignKey(d => d.VignobleId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_rdv_vgb");
+        });
 
             modelBuilder.Entity<Sejour>(entity =>
             {
@@ -629,6 +631,6 @@ namespace WS_VINOTRIP.Models.EntityFramework
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using WS_VINOTRIP.Models.EntityFramework;
 using WS_VINOTRIP.Models.Repository;
 
@@ -34,6 +35,11 @@ namespace WS_VINOTRIP.Models.DataManager
 
         public async Task UpdateAsync(ElementEtape elementEtape, ElementEtape entity)
         {
+            vinotripDbContext.Entry(elementEtape).State = EntityState.Modified;
+            elementEtape.ElementId = entity.ElementId;
+            elementEtape.Libelle = entity.Libelle;
+            elementEtape.Description = entity.Description;
+             await vinotripDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(ElementEtape elementEtape)

@@ -97,6 +97,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<User>> GetUserByPseudo(string pseudo)
         {
             var user = await dataRepository.GetByStringAsync(pseudo);
+            await dataRepositoryPersonne.GetAllAsync();
 
             if (user == null)
             {

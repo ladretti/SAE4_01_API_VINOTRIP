@@ -47,6 +47,8 @@ builder.Services.AddScoped<IDataRepository<LienEtape>, LienEtapeManager>();
 builder.Services.AddScoped<IDataRepository<Contient>, ContientManager>();
 builder.Services.AddScoped<IDataRepositoryAdresse<Adresse>, AdresseManager>();
 builder.Services.AddScoped<IDataRepository<Reside>, ResideManager>();
+builder.Services.AddScoped<IDataRepository<CompteCarte>, CompteCarteManager>();
+builder.Services.AddScoped<IDataRepositoryRefCarteBancaire<RefCarteBancaire>, RefCarteBancaireManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>

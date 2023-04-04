@@ -51,7 +51,7 @@ namespace WS_VINOTRIP.Models.DataManager
         {
             vinotripDbContext.Entry(etape).State = EntityState.Modified;
             etape.Titre = entity.Titre;
-            etape.Description = entity.Titre;
+            etape.Description = entity.Description;
             await vinotripDbContext.SaveChangesAsync();
         }
 
