@@ -134,9 +134,9 @@ namespace WS_VINOTRIP.Controllers
 
             else
             {
-                
+
                 await dataRepository.UpdateAsync(userToUpdate.Value, user);
-                
+
                 return NoContent();
             }
         }
@@ -150,17 +150,20 @@ namespace WS_VINOTRIP.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(User user, string nom, string mail)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            await dataRepositoryPersonne.AddAsync(new Personne() { Mail = mail, Nom = nom });
+            var e = await dataRepositoryPersonne.GetByStringAsync(mail);
+            user.PersonneId = e.Value.PersonneId;
             await dataRepository.AddAsync(user);
 
             return CreatedAtAction("GetUserById", new { id = user.PersonneId }, user); // GetUserById : nom de l’action
-            
+
         }
 
         /// <summary>
@@ -182,6 +185,7 @@ namespace WS_VINOTRIP.Controllers
             }
 
             await dataRepository.DeleteAsync(user.Value);
+            await dataRepositoryPersonne.DeleteAsync(dataRepositoryPersonne.GetByIdAsync(user.Value.PersonneId).Result.Value);
 
             return NoContent();
         }

@@ -33,7 +33,7 @@ namespace WS_VINOTRIP.Controllers
         {
             var avis =  await dataRepository.GetByIdAsync(id);
 
-            if (avis == null)
+            if (avis.Result == null)
             {
                 return NotFound();
             }

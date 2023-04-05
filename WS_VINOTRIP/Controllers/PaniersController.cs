@@ -30,7 +30,6 @@ namespace WS_VINOTRIP.Controllers
         /// </summary>
         /// <param name="id">L'identifiant de l'utilisateur.</param>
         /// <returns>Une liste des paniers de l'utilisateur correspondant à l'identifiant fourni.</returns>
-
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -68,7 +67,7 @@ namespace WS_VINOTRIP.Controllers
         /// <param name="sejourId">L'identifiant du séjour.</param>
         /// <param name="panier">Les données à mettre à jour.</param>
         /// <returns>Un code 204 No Content si la mise à jour a réussi.</returns>
-        [HttpPut("{id}")]
+        [HttpPut("{userId}/{sejourId}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> PutPanier(int userId, int sejourId, Panier panier)
@@ -122,7 +121,7 @@ namespace WS_VINOTRIP.Controllers
         /// <param name="offert">Statut "offert" de l'élément de panier</param>
         /// <returns>Renvoie un IActionResult indiquant le résultat de l'opération</returns>
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{userid}/{sejid}/{offert}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> DeletePanier(int userid, int sejid, bool offert)

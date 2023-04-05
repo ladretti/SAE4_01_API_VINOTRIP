@@ -96,13 +96,15 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<Etape>>> GetEtapeBySejourId(int id)
         {
             var etapes = await dataRepository.GetBySejourIdAsync(id);
+            await dataRepositoryLienEtape.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
 
             if (etapes == null)
             {
                 return NotFound();
             }
 
-            return etapes;
+            return etapes.Value.OrderBy(etape => etape.EtapeId).ToList();
         }
 
         /// <summary>
@@ -170,7 +172,7 @@ namespace WS_VINOTRIP.Controllers
         {
             var etape = await dataRepository.GetByIdAsync(id);
 
-            if (etape == null)
+            if (etape.Value == null)
             {
                 return NotFound();
             }

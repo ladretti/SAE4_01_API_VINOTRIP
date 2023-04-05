@@ -21,6 +21,21 @@ namespace WS_VINOTRIP.Controllers
             dataRepository = dataRepo;
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Lien>> GetLienById(int id)
+        {
+            var lien = await dataRepository.GetByIdAsync(id);
+
+            if (lien == null)
+            {
+                return NotFound();
+            }
+
+            return lien;
+        }
+
         /// <summary>
         /// Ajoute un nouveau lien dans la base de données.
         /// </summary>

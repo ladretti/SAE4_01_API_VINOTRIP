@@ -36,8 +36,10 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<ElementEtape>> GetElementEtapeById(int id)
         {
             var elementEtape = await dataRepository.GetByIdAsync(id);
+            await dataRepositoryContient.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
 
-            if (elementEtape == null)
+            if (elementEtape.Result == null)
             {
                 return NotFound();
             }
@@ -57,7 +59,8 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<ElementEtape>>> GetByEtapeId(int id)
         {
             var elementEtape = await dataRepository.GetByEtapeIdAsync(id);
-           
+            await dataRepositoryContient.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
 
             if (elementEtape == null)
             {
@@ -115,7 +118,7 @@ namespace WS_VINOTRIP.Controllers
 
             await dataRepository.AddAsync(elementEtape);
 
-            return CreatedAtAction("GetById", new { id = elementEtape.ElementId }, elementEtape); // GetById : nom de l’action
+            return CreatedAtAction("GetElementEtapeById", new { id = elementEtape.ElementId }, elementEtape); // GetById : nom de l’action
         }
 
         /// <summary>

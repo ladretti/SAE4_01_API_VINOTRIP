@@ -45,7 +45,7 @@ namespace WS_VINOTRIP.Controllers
             {
                 return NotFound();
             }
-            return sejours;
+            return sejours.Value.OrderBy(etape => etape.SejourId).ToList(); ;
         }
 
         /// <summary>
