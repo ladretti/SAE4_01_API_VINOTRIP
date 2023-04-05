@@ -216,7 +216,7 @@ namespace WS_VINOTRIP.Controllers.Tests
             };
 
             // Act
-            var actionResult = userController.PostUser(user).Result;
+            var actionResult = userController.PostUser(user,"Truc","zae@ez.fr").Result;
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<User>), "Pas un ActionResult<User>");
@@ -233,6 +233,7 @@ namespace WS_VINOTRIP.Controllers.Tests
             // Arrange
             User user = new User
             {
+                PersonneId = 149,
                 Titre = "M.",
                 Prenom = "Jérémy",
                 Pseudo = "Jerem",
@@ -249,6 +250,7 @@ namespace WS_VINOTRIP.Controllers.Tests
             var userController = new UsersController(mockRepository.Object, mockRepository1.Object);
 
             // Act
+
             var actionResult = userController.DeleteUser(130).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour

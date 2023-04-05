@@ -52,7 +52,7 @@ namespace WS_VINOTRIP.Controllers
         {
             var panier = await dataRepository.GetByIdsAsync(userId, sejourId, offert);
 
-            if (panier == null)
+            if (panier.Value == null)
             {
                 return NotFound();
             }
@@ -101,9 +101,11 @@ namespace WS_VINOTRIP.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<Panier>> PostPanier(Panier panier)
         {
-            var exist = dataRepository.GetByIdsAsync(panier.PersonneId, panier.SejourId, panier.Offert);
-            if (exist.Result.Value != null)
-            { return BadRequest("Already exists"); }
+            var exist = await dataRepository.GetByIdsAsync(panier.PersonneId, panier.SejourId, panier.Offert);
+            if (exist != null)
+            {
+                return BadRequest("Already exists");
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

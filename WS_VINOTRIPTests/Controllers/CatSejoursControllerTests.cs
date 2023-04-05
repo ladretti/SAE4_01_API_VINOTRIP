@@ -23,13 +23,15 @@ namespace WS_VINOTRIP.Controllers.Tests
         private readonly VinotripDBContext _context;
         private readonly CatSejoursController _controller;
         private IDataRepository<CatSejour> _dataRepository;
+        private IDataRepository<Lien> _dataRepoLien;
 
         public CatSejoursControllerTests()
         {
             var builder = new DbContextOptionsBuilder<VinotripDBContext>().UseNpgsql("Server=vinotrip.postgres.database.azure.com;port=5432;Database=vinotrique; uid=vinotrip_admin; password=Prout18#"); // Chaine de connexion à mettre dans les ( )
             _context = new VinotripDBContext(builder.Options);
             _dataRepository = new CatSejourManager(_context);
-            _controller = new CatSejoursController(_dataRepository);
+            _dataRepoLien = new LienManager(_context);
+            _controller = new CatSejoursController(_dataRepository, _dataRepoLien);
         }
 
 
@@ -68,8 +70,9 @@ namespace WS_VINOTRIP.Controllers.Tests
                 LienId=331,
             };
             var mockRepository = new Mock<IDataRepository<CatSejour>>();
+            var mockRepository1 = new Mock<IDataRepository<Lien>>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(catSejour);
-            var CatSejoursController = new CatSejoursController(mockRepository.Object);
+            var CatSejoursController = new CatSejoursController(mockRepository.Object, mockRepository1.Object);
             // Act
             var actionResult = CatSejoursController.GetCatSejourById(1).Result;
             // Assert
@@ -82,7 +85,8 @@ namespace WS_VINOTRIP.Controllers.Tests
         public void GetCatSejoursById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
             var mockRepository = new Mock<IDataRepository<CatSejour>>();
-            var CatSejoursController = new CatSejoursController(mockRepository.Object);
+            var mockRepository1 = new Mock<IDataRepository<Lien>>();
+            var CatSejoursController = new CatSejoursController(mockRepository.Object, mockRepository1.Object);
             // Act
             var actionResult = CatSejoursController.GetCatSejourById(0).Result;
             // Assert

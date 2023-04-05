@@ -28,7 +28,7 @@ namespace WS_VINOTRIP.Controllers
         {
             var lien = await dataRepository.GetByIdAsync(id);
 
-            if (lien == null)
+            if (lien.Value == null)
             {
                 return NotFound();
             }
@@ -69,7 +69,7 @@ namespace WS_VINOTRIP.Controllers
         {
             var lien = await dataRepository.GetByIdAsync(id);
 
-            if (lien == null)
+            if (lien.Value == null)
             {
                 return NotFound();
             }

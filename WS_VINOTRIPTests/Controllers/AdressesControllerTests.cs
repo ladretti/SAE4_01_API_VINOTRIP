@@ -89,16 +89,16 @@ namespace WS_VINOTRIP.Controllers.Tests
         [TestMethod()]
         public async Task GetAdresseByUserIdTestAsync()
         {
-            ActionResult<IEnumerable<Adresse>> Adresse = await _controller.GetAdresseByUserId(142);
-            var e = _context.Resides.FirstOrDefault(e => e.PersonneId == 142);
+            ActionResult<IEnumerable<Adresse>> Adresse = await _controller.GetAdresseByUserId(130);
+            var e = _context.Resides.FirstOrDefault(e => e.PersonneId == 130);
             Assert.AreEqual(_context.Adresses.Where(c => c.AdresseId == e.AdresseId).FirstOrDefault(), Adresse.Value.ToList()[0], "Adresse différent");
         }
 
         [TestMethod()]
         public async Task GetAdresseByUserIdTestAsyncFalse()
         {
-            ActionResult<IEnumerable<Adresse>> Adresse = await _controller.GetAdresseByUserId(142);
-            var e = _context.Resides.FirstOrDefault(e => e.PersonneId == 130);
+            ActionResult<IEnumerable<Adresse>> Adresse = await _controller.GetAdresseByUserId(130);
+            var e = _context.Resides.FirstOrDefault(e => e.PersonneId == 142);
             Assert.AreNotEqual(_context.Adresses.Where(c => c.AdresseId == e.AdresseId).FirstOrDefault(), Adresse.Value.ToList()[0], "Adresse différent");
         }
 

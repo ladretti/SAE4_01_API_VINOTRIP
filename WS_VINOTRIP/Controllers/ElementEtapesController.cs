@@ -39,7 +39,7 @@ namespace WS_VINOTRIP.Controllers
             await dataRepositoryContient.GetAllAsync();
             await dataRepositoryLien.GetAllAsync();
 
-            if (elementEtape.Result == null)
+            if (elementEtape == null)
             {
                 return NotFound();
             }

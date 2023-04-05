@@ -159,8 +159,11 @@ namespace WS_VINOTRIP.Controllers
 
             await dataRepositoryPersonne.AddAsync(new Personne() { Mail = mail, Nom = nom });
             var e = await dataRepositoryPersonne.GetByStringAsync(mail);
-            user.PersonneId = e.Value.PersonneId;
-            await dataRepository.AddAsync(user);
+            if (e != null)
+            {
+                user.PersonneId = e.Value.PersonneId;
+                await dataRepository.AddAsync(user);
+            }
 
             return CreatedAtAction("GetUserById", new { id = user.PersonneId }, user); // GetUserById : nom de l’action
 
@@ -185,7 +188,9 @@ namespace WS_VINOTRIP.Controllers
             }
 
             await dataRepository.DeleteAsync(user.Value);
-            await dataRepositoryPersonne.DeleteAsync(dataRepositoryPersonne.GetByIdAsync(user.Value.PersonneId).Result.Value);
+            var e = await dataRepositoryPersonne.GetByIdAsync(user.Value.PersonneId);
+            if (e != null)
+                await dataRepositoryPersonne.DeleteAsync(e.Value);
 
             return NoContent();
         }

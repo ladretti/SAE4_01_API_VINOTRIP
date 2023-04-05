@@ -40,7 +40,7 @@ namespace WS_VINOTRIP.Controllers.Tests
         public async Task GetSejoursTestAsync()
         {
             ActionResult<IEnumerable<Sejour>> sejours = await _controller.GetSejours();
-            CollectionAssert.AreEqual(_context.Sejours.ToList(), sejours.Value.ToList(), "La liste renvoyée n'est pas la bonne.");
+            CollectionAssert.AreEqual(_context.Sejours.ToList().OrderBy(etape => etape.SejourId).ToList(), sejours.Value.ToList(), "La liste renvoyée n'est pas la bonne.");
         }
 
         //public async Task<ActionResult<Sejour>> GetSejourById(int id)

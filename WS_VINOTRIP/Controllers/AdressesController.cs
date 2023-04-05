@@ -80,7 +80,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpPost]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse, int userId)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || adresse.Rue1 == adresse.Rue2)
             {
                 return BadRequest(ModelState);
             }
