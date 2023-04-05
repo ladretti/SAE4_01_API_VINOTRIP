@@ -27,7 +27,7 @@ namespace WS_VINOTRIP.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<RefCarteBancaire>> GetRefCarteBancaire(int id)
+        public async Task<ActionResult<RefCarteBancaire>> GetRefCarteBancaireById(int id)
         {
             var refCarteBancaire = await dataRepository.GetByIdAsync(id);
 
@@ -66,7 +66,7 @@ namespace WS_VINOTRIP.Controllers
             await dataRepository.AddAsync(refCarteBancaire);
             await dataRepositoryCompteCarte.AddAsync(new CompteCarte() { CarteId = refCarteBancaire.CarteId, PersonneId = userId });
 
-            return CreatedAtAction("GetrefCarteBancaireById", new { id = refCarteBancaire.CarteId }, refCarteBancaire); // GetById : nom de l’action
+            return CreatedAtAction("GetRefCarteBancaireById", new { id = refCarteBancaire.CarteId }, refCarteBancaire); // GetById : nom de l’action
         }
 
         // DELETE: api/RefCarteBancaires/5

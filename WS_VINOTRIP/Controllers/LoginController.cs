@@ -61,7 +61,14 @@ namespace WS_VINOTRIP.Controllers
         {
             var user = dataRepository.GetByStringAsync(pseudo).Result.Value;
             user.PersonneUser = dataRepositoryPersonne.GetByIdAsync(user.PersonneId).Result.Value;
-            return user;
+            if (user.Mdp != mdp)
+            {
+                return null;
+            }
+            else
+            {
+                return user;
+            }
 
         }
 

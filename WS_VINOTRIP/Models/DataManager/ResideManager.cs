@@ -5,7 +5,7 @@ using WS_VINOTRIP.Models.Repository;
 
 namespace WS_VINOTRIP.Models.DataManager
 {
-    public class ResideManager : IDataRepository<Reside>
+    public class ResideManager : IDataRepositoryReside<Reside>
     {
         readonly VinotripDBContext? vinotripDbContext;
         public ResideManager()
@@ -24,6 +24,10 @@ namespace WS_VINOTRIP.Models.DataManager
         public async Task<ActionResult<Reside>> GetByIdAsync(int id)
         {
             return await vinotripDbContext.Resides.FirstOrDefaultAsync(e => e.AdresseId == id);
+        }
+        public async Task<ActionResult<IEnumerable<Reside>>> GetByAdresseIdAsync(int id)
+        {
+            return vinotripDbContext.Resides.Where(e => e.AdresseId == id).ToList();
         }
 
         public async Task<ActionResult<Reside>> GetByStringAsync(string titre)
@@ -47,5 +51,11 @@ namespace WS_VINOTRIP.Models.DataManager
             vinotripDbContext.Resides.Remove(Reside);
             await vinotripDbContext.SaveChangesAsync();
         }
+        public async Task DeleteByDoubleIdAsync(int userId, int id)
+        {
+            vinotripDbContext.Resides.Remove(vinotripDbContext.Resides.FirstOrDefaultAsync(e => e.AdresseId == id && e.PersonneId == userId).Result);
+            await vinotripDbContext.SaveChangesAsync();
+        }
+
     }
 }

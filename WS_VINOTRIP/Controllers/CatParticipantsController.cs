@@ -15,10 +15,12 @@ namespace WS_VINOTRIP.Controllers
     public class CatParticipantsController : ControllerBase
     {
         private readonly IDataRepository<CatParticipant> dataRepository;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
 
-        public CatParticipantsController(IDataRepository<CatParticipant> dataRepo)
+        public CatParticipantsController(IDataRepository<CatParticipant> dataRepo, IDataRepository<Lien> dataRepoLien)
         {
             dataRepository = dataRepo;
+            dataRepositoryLien = dataRepoLien;
         }
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace WS_VINOTRIP.Controllers
         {
 
             var catsParticipant = await dataRepository.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
 
             if (catsParticipant == null)
             {
@@ -50,6 +53,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<CatParticipant>> GetCatParticipantById(int id)
         {
             var catParticipant = await dataRepository.GetByIdAsync(id);
+            await dataRepositoryLien.GetAllAsync();
 
             if (catParticipant == null)
             {

@@ -16,9 +16,9 @@ namespace WS_VINOTRIP.Controllers
     public class AdressesController : ControllerBase
     {
         private readonly IDataRepositoryAdresse<Adresse> dataRepository;
-        private readonly IDataRepository<Reside> dataRepositoryReside;
+        private readonly IDataRepositoryReside<Reside> dataRepositoryReside;
 
-        public AdressesController(IDataRepositoryAdresse<Adresse> dataRepo, IDataRepository<Reside> dataRepoReside)
+        public AdressesController(IDataRepositoryAdresse<Adresse> dataRepo, IDataRepositoryReside<Reside> dataRepoReside)
         {
             dataRepository = dataRepo;
             dataRepositoryReside = dataRepoReside;
@@ -106,16 +106,17 @@ namespace WS_VINOTRIP.Controllers
         /// <remarks>
         /// Cette méthode est une action d'API web ASP.NET Core qui est déclenchée lorsqu'une requête HTTP DELETE est reçue avec un ID en tant que paramètre d'URL.
         /// </remarks>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAdresse(int id)
+        [HttpDelete("{id}/{userid}")]
+        public async Task<IActionResult> DeleteAdresse(int id, int userid)
         {
+            var adressesByUser = dataRepository.GetByUserId(userid);
             var adresse = await dataRepository.GetByIdAsync(id);
-
-            if (adresse == null)
+            if (adressesByUser == null)
             {
                 return NotFound();
             }
 
+            await dataRepositoryReside.DeleteByDoubleIdAsync(userid, id);
             await dataRepository.DeleteAsync(adresse.Value);
 
             return NoContent();

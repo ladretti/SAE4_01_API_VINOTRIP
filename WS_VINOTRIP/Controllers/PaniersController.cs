@@ -46,6 +46,21 @@ namespace WS_VINOTRIP.Controllers
             return panier;
         }
 
+        [HttpGet("{userId}/{sejourId}/{offert}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Panier>> GetPanierByIds(int userId, int sejourId, bool offert)
+        {
+            var panier = await dataRepository.GetByIdsAsync(userId, sejourId, offert);
+
+            if (panier == null)
+            {
+                return NotFound();
+            }
+
+            return panier;
+        }
+
         /// <summary>
         /// Met à jour un panier.
         /// </summary>
@@ -87,13 +102,16 @@ namespace WS_VINOTRIP.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<Panier>> PostPanier(Panier panier)
         {
+            var exist = dataRepository.GetByIdsAsync(panier.PersonneId, panier.SejourId, panier.Offert);
+            if (exist.Result.Value != null)
+            { return BadRequest("Already exists"); }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             await dataRepository.AddAsync(panier);
-            return CreatedAtAction("GetPanierById", new { userId = panier.PersonneId, sejourId = panier.SejourId, offert = panier.Offert }, panier); // GetById : nom de l’action
+            return CreatedAtAction("GetPanierByIds", new { userId = panier.PersonneId, sejourId = panier.SejourId, offert = panier.Offert }, panier); // GetById : nom de l’action
         }
 
         /// <summary>
