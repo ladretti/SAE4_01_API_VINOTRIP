@@ -49,6 +49,7 @@ builder.Services.AddScoped<IDataRepositoryAdresse<Adresse>, AdresseManager>();
 builder.Services.AddScoped<IDataRepositoryReside<Reside>, ResideManager>();
 builder.Services.AddScoped<IDataRepository<CompteCarte>, CompteCarteManager>();
 builder.Services.AddScoped<IDataRepositoryRefCarteBancaire<RefCarteBancaire>, RefCarteBancaireManager>();
+builder.Services.AddScoped<IDataRepositoryFavori<Favori>, FavorisManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>

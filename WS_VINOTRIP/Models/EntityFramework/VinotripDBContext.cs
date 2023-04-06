@@ -37,6 +37,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public virtual DbSet<Reside>? Resides { get; set; }
         public virtual DbSet<CompteCarte>? CompteCartes { get; set; }
         public virtual DbSet<RefCarteBancaire>? RefCarteBancaires { get; set; }
+        public virtual DbSet<Favori>? Favoris { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -143,7 +143,7 @@ namespace WS_VINOTRIP.Controllers.Tests
 
             Panier Panier = new Panier
             {
-                PersonneId = 126,
+                PersonneId = 142,
                 SejourId = 2,
                 NbAdultes = 5,
                 NbEnfants = 1,

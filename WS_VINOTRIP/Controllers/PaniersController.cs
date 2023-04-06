@@ -103,9 +103,9 @@ namespace WS_VINOTRIP.Controllers
         {
             var exist = await dataRepository.GetByIdsAsync(panier.PersonneId, panier.SejourId, panier.Offert);
             if (exist != null)
-            {
-                return BadRequest("Already exists");
-            }
+                if (exist.Value != null)
+                    return BadRequest("Already exists");
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
