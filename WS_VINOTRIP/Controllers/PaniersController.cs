@@ -36,6 +36,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<Panier>>> GetPanierByUserId(int id)
         {
             var panier = await dataRepository.GetByUserIdAsync(id);
+            await dataRepositorySejour.GetAllAsync();
 
             if (panier == null)
             {
