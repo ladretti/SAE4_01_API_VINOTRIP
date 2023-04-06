@@ -147,7 +147,7 @@ namespace WS_VINOTRIP.Controllers
         /// <param name="user">Informations pour le nouvel utilisateur</param>
         /// <returns>Une réponse 'CreatedAtAction' avec l'utilisateur nouvellement créé</returns>
 
-        [HttpPost]
+        [HttpPost("{nom}/{mail}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<User>> PostUser(User user, string nom, string mail)

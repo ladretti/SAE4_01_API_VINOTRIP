@@ -15,7 +15,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public int SejourId { get; set; }
 
         [Column("bcd_id")]
-        public int BonCadeauId { get; set; }
+        public int? BonCadeauId { get; set; }
 
         [Required, Column("rsv_nbadultes")]
         public int NbAdultes { get; set; }
@@ -42,11 +42,11 @@ namespace WS_VINOTRIP.Models.EntityFramework
 
         [ForeignKey("SejourId")]
         [InverseProperty("ReservationsSejour")]
-        public virtual Sejour SejourReservation { get; set; } = null!;
+        public virtual Sejour? SejourReservation { get; set; } 
 
         [ForeignKey("BonCadeauId")]
         [InverseProperty("ReservationBonCadeau")]
-        public virtual BonCadeau BonCadeauReservation { get; set; } = null!;
+        public virtual BonCadeau? BonCadeauReservation { get; set; }
 
         [InverseProperty("ReservationPasse")]
         public virtual ICollection<Passe>? PasseReservation { get; }

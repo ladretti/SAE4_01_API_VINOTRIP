@@ -150,6 +150,56 @@ namespace WS_VINOTRIP.Controllers.Tests
 
         }
         //public async Task<ActionResult<Favori>> PostFavori(Favori favori)
+        [TestMethod]
+        public void PostFavori_ModelValidated_CreationOK_AvecMoq()
+        {
+            // Arrange
+            var mockRepository = new Mock<IDataRepositoryFavori<Favori>>();
+            var mockRepository1 = new Mock<IDataRepositorySejour<Sejour>>();
+            var mockRepository2 = new Mock<IDataRepository<LienSejour>>();
+            var mockRepository3 = new Mock<IDataRepository<Lien>>();
+            var FavoriController = new FavorisController(mockRepository.Object, mockRepository1.Object, mockRepository3.Object, mockRepository2.Object);
+
+            Favori favori = new Favori
+            {
+                PersonneId = 130,
+                SejourId = 97,
+            };
+
+
+            // Act
+            var actionResult = FavoriController.PostFavori(favori).Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Favori>), "Pas un ActionResult<Favori>");
+            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
+            var result = actionResult.Result as CreatedAtActionResult;
+            Assert.IsInstanceOfType(result.Value, typeof(Favori), "Pas un Favori");
+            Assert.AreEqual(favori, (Favori)result.Value, "Favori pas identiques");
+        }
         //public async Task<IActionResult> DeleteFavori(int sejourid, int userid)
+        [TestMethod]
+        public void DeleteFavoriTest_AvecMoq()
+        {
+            // Arrange
+            Favori favori = new Favori
+            {
+                PersonneId = 142,
+                SejourId = 1,
+            };
+
+            var mockRepository = new Mock<IDataRepositoryFavori<Favori>>();
+            var mockRepository1 = new Mock<IDataRepositorySejour<Sejour>>();
+            var mockRepository2 = new Mock<IDataRepository<LienSejour>>();
+            var mockRepository3 = new Mock<IDataRepository<Lien>>();
+            mockRepository.Setup(x => x.GetBySejourIdUserIdAsync(142, 2).Result).Returns(favori);
+            var FavoriController = new FavorisController(mockRepository.Object, mockRepository1.Object, mockRepository3.Object, mockRepository2.Object);
+
+            // Act
+            var actionResult = FavoriController.DeleteFavori(142, 2).Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+        }
     }
 }

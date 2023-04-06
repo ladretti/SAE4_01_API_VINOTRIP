@@ -50,6 +50,9 @@ builder.Services.AddScoped<IDataRepositoryReside<Reside>, ResideManager>();
 builder.Services.AddScoped<IDataRepository<CompteCarte>, CompteCarteManager>();
 builder.Services.AddScoped<IDataRepositoryRefCarteBancaire<RefCarteBancaire>, RefCarteBancaireManager>();
 builder.Services.AddScoped<IDataRepositoryFavori<Favori>, FavorisManager>();
+builder.Services.AddScoped<IDataRepository<Reservation>, ReservationManager>();
+builder.Services.AddScoped<IDataRepositoryPasse<Passe>, PasseManager>();
+builder.Services.AddScoped<IDataRepositoryCommande<Commande>, CommandeManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>

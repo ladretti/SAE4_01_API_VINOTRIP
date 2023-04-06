@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NuGet.ContentModel;
 using WS_VINOTRIP.Models.EntityFramework;
 
 namespace WS_VINOTRIP.Models.EntityFramework
@@ -38,6 +39,9 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public virtual DbSet<CompteCarte>? CompteCartes { get; set; }
         public virtual DbSet<RefCarteBancaire>? RefCarteBancaires { get; set; }
         public virtual DbSet<Favori>? Favoris { get; set; }
+        public virtual DbSet<Reservation>? Reservations { get; set; }
+        public virtual DbSet<Passe>? Passes { get; set; }
+        public virtual DbSet<Commande>? Commandes { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
