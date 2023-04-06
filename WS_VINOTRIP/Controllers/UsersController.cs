@@ -53,6 +53,7 @@ namespace WS_VINOTRIP.Controllers
         /// </summary>
         /// <returns>Une liste des utilisateurs</returns>
         [HttpGet]
+        [Authorize(Policy = Policies.Admin)]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
