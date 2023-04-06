@@ -53,6 +53,7 @@ builder.Services.AddScoped<IDataRepositoryFavori<Favori>, FavorisManager>();
 builder.Services.AddScoped<IDataRepository<Reservation>, ReservationManager>();
 builder.Services.AddScoped<IDataRepositoryPasse<Passe>, PasseManager>();
 builder.Services.AddScoped<IDataRepositoryCommande<Commande>, CommandeManager>();
+builder.Services.AddScoped<IDataRepository<TypePayement>, TypePayementManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>

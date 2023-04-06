@@ -42,6 +42,7 @@ namespace WS_VINOTRIP.Models.EntityFramework
         public virtual DbSet<Reservation>? Reservations { get; set; }
         public virtual DbSet<Passe>? Passes { get; set; }
         public virtual DbSet<Commande>? Commandes { get; set; }
+        public virtual DbSet<TypePayement>? TypePayements { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
