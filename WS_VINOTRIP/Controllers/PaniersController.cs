@@ -18,11 +18,15 @@ namespace WS_VINOTRIP.Controllers
     {
         private readonly IDataRepositoryPanier<Panier> dataRepository;
         private readonly IDataRepositorySejour<Sejour> dataRepositorySejour;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
+        private readonly IDataRepository<LienSejour> dataRepositoryLienSejour;
 
-        public PaniersController(IDataRepositoryPanier<Panier> dataRepo, IDataRepositorySejour<Sejour> dataRepoSejour)
+        public PaniersController(IDataRepositoryPanier<Panier> dataRepo, IDataRepositorySejour<Sejour> dataRepoSejour, IDataRepository<Lien> dataRepoLien, IDataRepository<LienSejour> dataRepoLienSejour)
         {
             dataRepository = dataRepo;
             dataRepositorySejour = dataRepoSejour;
+            dataRepositoryLien = dataRepoLien;
+            dataRepositoryLienSejour = dataRepoLienSejour;
         }
 
         /// <summary>
@@ -37,6 +41,8 @@ namespace WS_VINOTRIP.Controllers
         {
             var panier = await dataRepository.GetByUserIdAsync(id);
             await dataRepositorySejour.GetAllAsync();
+            await dataRepositoryLienSejour.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
 
             if (panier == null)
             {

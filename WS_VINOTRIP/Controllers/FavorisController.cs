@@ -15,10 +15,16 @@ namespace WS_VINOTRIP.Controllers
     public class FavorisController : ControllerBase
     {
         private readonly IDataRepositoryFavori<Favori> dataRepository;
+        private readonly IDataRepositorySejour<Sejour> dataRepositorySejour;
+        private readonly IDataRepository<Lien> dataRepositoryLien;
+        private readonly IDataRepository<LienSejour> dataRepositoryLienSejour;
 
-        public FavorisController(IDataRepositoryFavori<Favori> dataRepo)
+        public FavorisController(IDataRepositoryFavori<Favori> dataRepo, IDataRepositorySejour<Sejour> dataRepoSejour, IDataRepository<Lien> dataRepoLien, IDataRepository<LienSejour> dataRepoLienSejour)
         {
             dataRepository = dataRepo;
+            dataRepositorySejour = dataRepoSejour;
+            dataRepositoryLien = dataRepoLien;
+            dataRepositoryLienSejour = dataRepoLienSejour;
         }
 
         [HttpGet("{sejourid}/{userid}")]
@@ -28,10 +34,9 @@ namespace WS_VINOTRIP.Controllers
         {
             var favori = await dataRepository.GetBySejourIdUserIdAsync(sejourid, userid);
 
-            if (favori.Value == null)
-            {
-                return NotFound();
-            }
+            if (favori == null)
+                    return NotFound();
+
 
             return favori;
         }
@@ -42,9 +47,11 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<Favori>>> GetFavorisByUserId(int userid)
         {
             var favori = await dataRepository.GetByUserIdAsync(userid);
+            await dataRepositorySejour.GetAllAsync();
+            await dataRepositoryLienSejour.GetAllAsync();
+            await dataRepositoryLien.GetAllAsync();
 
-            if (favori != null)
-                if (favori.Value != null)
+            if (favori == null)
                     return NotFound();
 
 
