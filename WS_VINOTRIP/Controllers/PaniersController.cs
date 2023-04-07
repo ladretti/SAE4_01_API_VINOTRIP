@@ -94,7 +94,7 @@ namespace WS_VINOTRIP.Controllers
             else
             {
                 await dataRepository.UpdateAsync(panierToUpdate.Value, panier);
-                var e = await dataRepository.GetByIdsAsync(userId, sejourId, panier.Offert);
+
                 return NoContent();
             }
         }
