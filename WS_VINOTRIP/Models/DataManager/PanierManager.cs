@@ -62,7 +62,7 @@ namespace WS_VINOTRIP.Models.DataManager
             vinotripDbContext.Entry(panier).State = EntityState.Modified;
             panier.DateSejour = entity.DateSejour;
             panier.NbAdultes = entity.NbAdultes;
-            panier.NbChambres = entity.NbChambres;
+            panier.NbEnfants = entity.NbEnfants;
             panier.NbChambres = entity.NbChambres;
             await vinotripDbContext.SaveChangesAsync();
         }
