@@ -16,11 +16,13 @@ namespace WS_VINOTRIP.Controllers
     {
         private readonly IDataRepository<Reservation> dataRepository;
         private readonly IDataRepositoryPasse<Passe> dataRepositoryPasse;
+        private readonly IDataRepositorySejour<Sejour> dataRepositorySejour;
 
-        public ReservationsController(IDataRepository<Reservation> dataRepo, IDataRepositoryPasse<Passe> dataRepoPasse)
+        public ReservationsController(IDataRepository<Reservation> dataRepo, IDataRepositoryPasse<Passe> dataRepoPasse, IDataRepositorySejour<Sejour> dataRepoSejour)
         {
             dataRepository = dataRepo;
             dataRepositoryPasse = dataRepoPasse;
+            dataRepositorySejour = dataRepoSejour;
         }
 
         [HttpGet("{id}")]
@@ -44,6 +46,7 @@ namespace WS_VINOTRIP.Controllers
         public async Task<ActionResult<IEnumerable<Reservation>>> GetByCommandeId(int id)
         {
             var passes = await dataRepositoryPasse.GetByCommandeId(id);
+            await dataRepositorySejour.GetAllAsync();
             List<Reservation> resas = new List<Reservation>();
             foreach (var passe in passes.Value)
             {
