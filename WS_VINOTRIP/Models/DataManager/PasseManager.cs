@@ -61,5 +61,18 @@ namespace WS_VINOTRIP.Models.DataManager
 
             return listPasses;
         }
+        public async Task<ActionResult<IEnumerable<Passe>>> GetByCommandeId(int id)
+        {
+            var passes = vinotripDbContext.Passes.Where(e => e.CommandeId == id).ToList();
+
+            List<Passe> listPasses = new List<Passe>();
+
+            foreach (Passe p in passes)
+            {
+                listPasses.Add(p);
+            }
+
+            return listPasses;
+        }
     }
 }

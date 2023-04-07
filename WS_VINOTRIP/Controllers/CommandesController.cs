@@ -17,12 +17,14 @@ namespace WS_VINOTRIP.Controllers
         private readonly IDataRepositoryCommande<Commande> dataRepository;
         private readonly IDataRepositoryPasse<Passe> dataRepositoryPasse;
         private readonly IDataRepository<Reservation> dataRepositoryReservation;
+        private readonly IDataRepositorySejour<Sejour> dataRepositorySejour;
 
-        public CommandesController(IDataRepositoryCommande<Commande> dataRepo, IDataRepositoryPasse<Passe> dataRepoPasse, IDataRepository<Reservation> dataRepoReservation)
+        public CommandesController(IDataRepositoryCommande<Commande> dataRepo, IDataRepositoryPasse<Passe> dataRepoPasse, IDataRepository<Reservation> dataRepoReservation, IDataRepositorySejour<Sejour> dataRepoSejour)
         {
             dataRepository = dataRepo;
             dataRepositoryPasse = dataRepoPasse;
             dataRepositoryReservation = dataRepoReservation;
+            this.dataRepositorySejour = dataRepoSejour;
         }
 
         [HttpGet("{id}")]
@@ -48,6 +50,8 @@ namespace WS_VINOTRIP.Controllers
             var commandes = await dataRepository.GetByUserIdAsync(userid);
             await dataRepositoryPasse.GetAllAsync();
             await dataRepositoryReservation.GetAllAsync();
+            await dataRepositorySejour.GetAllAsync();
+
             if (commandes == null)
             {
                 return NotFound();

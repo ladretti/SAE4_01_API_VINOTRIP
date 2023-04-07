@@ -38,6 +38,26 @@ namespace WS_VINOTRIP.Controllers
             return resa;
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetByCommandeId(int id)
+        {
+            var passes = await dataRepositoryPasse.GetByCommandeId(id);
+            List<Reservation> resas = new List<Reservation>();
+            foreach (var passe in passes.Value)
+            {
+                resas.Add(dataRepository.GetByIdAsync(passe.ReservationId).Result.Value);
+            };
+
+            if (resas == null)
+            {
+                return NotFound();
+            }
+
+            return resas;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation, int commandeId)
         {
@@ -51,7 +71,7 @@ namespace WS_VINOTRIP.Controllers
             return CreatedAtAction("GetReservationById", new { id = reservation.ReservationId }, reservation); // GetById : nom de l’action
         }
 
-       
+
 
 
         // DELETE: api/Reservations/5

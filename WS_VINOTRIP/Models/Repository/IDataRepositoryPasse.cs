@@ -6,5 +6,6 @@ namespace WS_VINOTRIP.Models.Repository
     public interface IDataRepositoryPasse<TEntity> : IDataRepository<TEntity>
     {
         public Task<ActionResult<IEnumerable<TEntity>>> GetByReservationsId(int id);
+        public Task<ActionResult<IEnumerable<TEntity>>> GetByCommandeId(int id);
     }
 }
